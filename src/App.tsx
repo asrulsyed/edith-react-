@@ -16,6 +16,8 @@ import LLMChat from "./pages/Chat/LLMChat";
 import Settings from "./pages/Chat/Settings";
 import Project from "./pages/Chat/Project";
 import History from "./pages/Chat/History";
+import SignUp from "./pages/Auth/SignUp";
+import SignIn from "./pages/Auth/SignIn";
 
 function App() {
   return (
@@ -45,6 +47,8 @@ function App() {
               <Route path="normal-conversation" element={<NormalConversation />} />
               <Route path="podcast" element={<AudioPodcast />} />
             </Route>
+            <Route path="/sign-in" element={<SignIn />} />
+            <Route path="/sign-up" element={<SignUp />} />
             <Route path="*" element={<NotFound />} />
           </Route>
         </Routes>
