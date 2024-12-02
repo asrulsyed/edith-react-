@@ -19,7 +19,7 @@ import History from "./pages/Chat/History";
 import SignUp from "./pages/Auth/SignUp";
 import SignIn from "./pages/Auth/SignIn";
 
-function App() {
+const App = () => {
   return (
     <>
       <BrowserRouter>
@@ -43,18 +43,24 @@ function App() {
               <Route path="podcast" element={<VideoPodcast />} />
             </Route>
             <Route path="/audio" element={<Audio />}>
-              <Route index element={<Navigate to="normal-conversation" replace />} />
-              <Route path="normal-conversation" element={<NormalConversation />} />
+              <Route
+                index
+                element={<Navigate to="normal-conversation" replace />}
+              />
+              <Route
+                path="normal-conversation"
+                element={<NormalConversation />}
+              />
               <Route path="podcast" element={<AudioPodcast />} />
             </Route>
-            <Route path="/sign-in" element={<SignIn />} />
-            <Route path="/sign-up" element={<SignUp />} />
             <Route path="*" element={<NotFound />} />
           </Route>
+          <Route path="/signin" element={<SignIn />} />
+          <Route path="/signup" element={<SignUp />} />
         </Routes>
       </BrowserRouter>
     </>
   );
-}
+};
 
 export default App;
