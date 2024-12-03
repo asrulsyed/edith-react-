@@ -1,3 +1,4 @@
+import { useAuth } from "@/context/AuthContext";
 import {
   Email,
   Google,
@@ -10,39 +11,64 @@ import {
   Divider,
   Box,
   Typography,
-  Checkbox,
-  FormControlLabel,
   InputAdornment,
   FormControl,
   OutlinedInput,
   InputLabel,
   IconButton,
 } from "@mui/material";
-import { useState } from "react";
+import axios from "axios";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-// import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 interface SignInProps {
   email: string;
   password: string;
-  rememberMe: boolean;
 }
 
 const SignIn = () => {
-  // const navigate = useNavigate();
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<SignInProps>({
-    defaultValues: {
-      rememberMe: false,
-    },
-  });
+  } = useForm<SignInProps>();
 
-  const onSubmit = (data: SignInProps) => {
-    console.log(data);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const navigate = useNavigate();
+  const { setToken, setLogined, setUser, logined } = useAuth();
+
+  const onSubmit = async (data: SignInProps) => {
+    setIsLoading(true);
+    try {
+      const response = await axios.post(
+        `${import.meta.env.VITE_BACKEND_URL}/user/login`,
+        data
+      );
+      if (response.status === 200) {
+        setLogined(true);
+        setUser(response.data.user);
+        localStorage.setItem("token", response.data.token);
+        axios.defaults.headers.common[
+          "Authorization"
+        ] = `Bearer ${response.data.token}`;
+        navigate("/home");
+      } else if (response.status === 201) {
+        console.log(response);
+        setToken(response.data.token);
+        setUser(response.data.user);
+        navigate("/user/verify");
+      }
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setIsLoading(false);
+    }
   };
+
+  useEffect(() => {
+    if (logined) navigate("/home");
+  }, [logined, navigate]);
 
   const [showPassword, setShowPassword] = useState(false);
 
@@ -78,9 +104,7 @@ const SignIn = () => {
               error={!!errors.email}
               endAdornment={
                 <InputAdornment position="end">
-                  <IconButton edge="end">
-                    <Email />
-                  </IconButton>
+                  <Email />
                 </InputAdornment>
               }
               label="Email"
@@ -140,18 +164,36 @@ const SignIn = () => {
             )}
           </FormControl>
 
-          <FormControlLabel
-            control={<Checkbox {...register("rememberMe")} defaultChecked />}
-            label="Remember me"
-          />
-
           <Button
             type="submit"
             variant="contained"
             fullWidth
-            className="bg-blue-600 hover:bg-blue-700 h-10"
+            disabled={isLoading}
+            className="bg-blue-600 hover:bg-blue-700 h-10 disabled:bg-blue-400"
           >
-            Sign In
+            {isLoading ? (
+              <span className="flex items-center gap-2">
+                <svg className="animate-spin h-5 w-5" viewBox="0 0 24 24">
+                  <circle
+                    className="opacity-25"
+                    cx="12"
+                    cy="12"
+                    r="10"
+                    stroke="currentColor"
+                    strokeWidth="4"
+                    fill="none"
+                  />
+                  <path
+                    className="opacity-75"
+                    fill="currentColor"
+                    d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                  />
+                </svg>
+                Signing in...
+              </span>
+            ) : (
+              "Sign In"
+            )}
           </Button>
         </form>
 
@@ -182,6 +224,12 @@ const SignIn = () => {
             Continue with Twitter
           </Button>
         </div>
+        <Typography variant="body2" className="text-center mt-4">
+          Don't have an account?{" "}
+          <Link to="/user/signup" className="text-blue-600 hover:text-blue-700">
+            Sign Up
+          </Link>
+        </Typography>
       </Box>
     </Box>
   );

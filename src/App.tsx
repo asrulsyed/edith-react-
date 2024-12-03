@@ -18,22 +18,27 @@ import Project from "./pages/Chat/Project";
 import History from "./pages/Chat/History";
 import SignUp from "./pages/Auth/SignUp";
 import SignIn from "./pages/Auth/SignIn";
+import Verify from "./pages/Auth/Verify";
+import { AuthProvider } from "./context/AuthContext";
+import VerifyToken from "./pages/Auth/VerifyToken";
+import RequireAuth from "./components/RequireAuth";
 
 const App = () => {
   return (
-    <>
+    <AuthProvider>
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Layout />}>
-            <Route index element={<Home />} />
-            <Route path="/chat" element={<Chat />}>
+            <Route index element={<Navigate to="/home" replace />} />
+            <Route path="/home" element={RequireAuth(<Home />)} />
+            <Route path="/chat" element={RequireAuth(<Chat />)}>
               <Route index element={<Navigate to="llm-chat" replace />} />
               <Route path="llm-chat" element={<LLMChat />} />
               <Route path="settings" element={<Settings />} />
               <Route path="project" element={<Project />} />
               <Route path="history" element={<History />} />
             </Route>
-            <Route path="/image" element={<Image />}>
+            <Route path="/image" element={RequireAuth(<Image />)}>
               <Route index element={<Navigate to="normal-img-gen" replace />} />
               <Route path="normal-img-gen" element={<NormalImgGen />} />
             </Route>
@@ -42,7 +47,7 @@ const App = () => {
               <Route path="short-film-gen" element={<ShortFilmGen />} />
               <Route path="podcast" element={<VideoPodcast />} />
             </Route>
-            <Route path="/audio" element={<Audio />}>
+            <Route path="/audio" element={RequireAuth(<Audio />)}>
               <Route
                 index
                 element={<Navigate to="normal-conversation" replace />}
@@ -55,11 +60,15 @@ const App = () => {
             </Route>
             <Route path="*" element={<NotFound />} />
           </Route>
-          <Route path="/signin" element={<SignIn />} />
-          <Route path="/signup" element={<SignUp />} />
+          <Route path="/user">
+            <Route path="signin" element={<SignIn />} />
+            <Route path="signup" element={<SignUp />} />
+            <Route path="verify" element={<Verify />} />
+            <Route path="verify/token" element={<VerifyToken />} />
+          </Route>
         </Routes>
       </BrowserRouter>
-    </>
+    </AuthProvider>
   );
 };
 
