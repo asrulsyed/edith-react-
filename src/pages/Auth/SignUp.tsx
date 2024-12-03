@@ -1,12 +1,10 @@
 import { Link, useNavigate } from "react-router-dom";
-import { Email, Twitter, Visibility, VisibilityOff } from "@mui/icons-material";
+import { Email, Visibility, VisibilityOff } from "@mui/icons-material";
 import {
   Button,
   Divider,
   Box,
   Typography,
-  Checkbox,
-  FormControlLabel,
   InputAdornment,
   FormControl,
   OutlinedInput,
@@ -22,6 +20,8 @@ import {
   GoogleOAuthProvider,
   CredentialResponse,
 } from "@react-oauth/google";
+import { useToast } from "@/hooks/use-toast";
+import { TwitterLoginButton } from "react-social-login-buttons";
 
 interface SignUpProps {
   email: string;
@@ -36,18 +36,15 @@ const SignUp = () => {
     formState: { errors },
   } = useForm<SignUpProps>({});
 
-  const [isRead, setIsRead] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState(false);
   const { setToken, setUser, logined, setLogined } = useAuth();
+  const { toast } = useToast();
 
   useEffect(() => {
     if (logined) navigate("/home");
   }, [logined, navigate]);
 
   const onSubmit = async (data: SignUpProps) => {
-    if (!isRead) {
-      return;
-    }
     setIsLoading(true);
     try {
       const response = await axios.post(
@@ -59,7 +56,10 @@ const SignUp = () => {
         setUser(response.data.user);
         navigate("/user/verify");
       } else {
-        console.error("Registration error:", response.data);
+        toast({
+          variant: "destructive",
+          description: response.data,
+        });
       }
     } catch (error) {
       console.error("Registration error:", error);
@@ -109,6 +109,57 @@ const SignUp = () => {
       }
     } catch (error) {
       console.error("Google Login Error:", error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleTwitterLogin = async () => {
+    setIsLoading(true);
+    try {
+      const response = await axios.get(
+        `${import.meta.env.VITE_BACKEND_URL}/user/twitter-login`
+      );
+      // Open Twitter auth in a popup window
+      const width = 600;
+      const height = 600;
+      const left = window.screen.width / 2 - width / 2;
+      const top = window.screen.height / 2 - height / 2;
+
+      window.open(
+        response.data.url,
+        "Twitter Auth",
+        `width=${width},height=${height},left=${left},top=${top}`
+      );
+
+      // Listen for the callback from Twitter
+      window.addEventListener("message", async (event) => {
+        if (event.data.type === "TWITTER_AUTH_SUCCESS") {
+          const { code } = event.data;
+
+          // Exchange the code for tokens
+          const tokenResponse = await axios.post(
+            `${import.meta.env.VITE_BACKEND_URL}/user/twitter/callback`,
+            { code }
+          );
+
+          if (tokenResponse.status === 200) {
+            setLogined(true);
+            setUser(tokenResponse.data.user);
+            localStorage.setItem("token", tokenResponse.data.token);
+            axios.defaults.headers.common[
+              "Authorization"
+            ] = `Bearer ${tokenResponse.data.token}`;
+            navigate("/home");
+          }
+        }
+      });
+    } catch (error) {
+      console.error("Twitter Login Error:", error);
+      toast({
+        variant: "destructive",
+        description: "Failed to login with Twitter",
+      });
     } finally {
       setIsLoading(false);
     }
@@ -192,16 +243,6 @@ const SignUp = () => {
             )}
           </FormControl>
 
-          <FormControlLabel
-            control={
-              <Checkbox
-                checked={isRead}
-                onChange={(e) => setIsRead(e.target.checked)}
-              />
-            }
-            label="I agree to the Privacy Policy"
-          />
-
           <Button
             type="submit"
             variant="contained"
@@ -237,7 +278,7 @@ const SignUp = () => {
 
         <Divider>or</Divider>
 
-        <div className="space-y-2">
+        <div className="space-y-4">
           <GoogleOAuthProvider clientId={import.meta.env.VITE_GOOGLE_CLIENT_ID}>
             <GoogleLogin
               onSuccess={handleGoogleSuccess}
@@ -251,17 +292,7 @@ const SignUp = () => {
             />
           </GoogleOAuthProvider>
 
-          <Button
-            variant="outlined"
-            fullWidth
-            startIcon={<Twitter />}
-            onClick={() => {
-              /* Handle Twitter Sign In */
-            }}
-            className="border-gray-300"
-          >
-            Continue with Twitter
-          </Button>
+          <TwitterLoginButton onClick={handleTwitterLogin} className="!flex !justify-center !items-center !m-0 !w-full !h-10" />
         </div>
 
         <Typography variant="body2" className="text-center mt-4">

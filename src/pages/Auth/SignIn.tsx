@@ -1,11 +1,5 @@
 import { useAuth } from "@/context/AuthContext";
-import {
-  Email,
-  Google,
-  Twitter,
-  Visibility,
-  VisibilityOff,
-} from "@mui/icons-material";
+import { Email, Twitter, Visibility, VisibilityOff } from "@mui/icons-material";
 import {
   Button,
   Divider,
@@ -17,6 +11,11 @@ import {
   InputLabel,
   IconButton,
 } from "@mui/material";
+import {
+  CredentialResponse,
+  GoogleLogin,
+  GoogleOAuthProvider,
+} from "@react-oauth/google";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
@@ -35,34 +34,59 @@ const SignIn = () => {
   } = useForm<SignInProps>();
 
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [loginWithEmail, setLoginWithEmail] = useState<boolean>(true);
   const navigate = useNavigate();
-  const { setToken, setLogined, setUser, logined } = useAuth();
+  const { setLogined, setUser, logined } = useAuth();
 
   const onSubmit = async (data: SignInProps) => {
     setIsLoading(true);
-    try {
-      const response = await axios.post(
-        `${import.meta.env.VITE_BACKEND_URL}/user/login`,
-        data
-      );
-      if (response.status === 200) {
-        setLogined(true);
-        setUser(response.data.user);
-        localStorage.setItem("token", response.data.token);
-        axios.defaults.headers.common[
-          "Authorization"
-        ] = `Bearer ${response.data.token}`;
-        navigate("/home");
-      } else if (response.status === 201) {
-        console.log(response);
-        setToken(response.data.token);
-        setUser(response.data.user);
-        navigate("/user/verify");
+    if (!data.password) {
+      try {
+        const response = await axios.post(
+          `${import.meta.env.VITE_BACKEND_URL}/user/login-with-email`,
+          data
+        );
+        if (response.status === 200) {
+          setLogined(true);
+          setUser(response.data.user);
+          localStorage.setItem("token", response.data.token);
+          axios.defaults.headers.common[
+            "Authorization"
+          ] = `Bearer ${response.data.token}`;
+          navigate("/home");
+        } else if (response.status === 201) {
+          setLoginWithEmail(false);
+          setUser(response.data.user);
+        }
+      } catch (error) {
+        console.log(error);
+      } finally {
+        setIsLoading(false);
       }
-    } catch (error) {
-      console.log(error);
-    } finally {
-      setIsLoading(false);
+    } else {
+      try {
+        const response = await axios.post(
+          `${import.meta.env.VITE_BACKEND_URL}/user/login`,
+          data
+        );
+        console.log(response);
+        if (response.status === 200) {
+          setLogined(true);
+          setUser(response.data.user);
+          localStorage.setItem("token", response.data.token);
+          axios.defaults.headers.common[
+            "Authorization"
+          ] = `Bearer ${response.data.token}`;
+          navigate("/home");
+        } else if (response.status === 201) {
+          console.log(response);
+          navigate("/user/verify");
+        }
+      } catch (error) {
+        console.log(error);
+      } finally {
+        setIsLoading(false);
+      }
     }
   };
 
@@ -86,6 +110,36 @@ const SignIn = () => {
     event.preventDefault();
   };
 
+  const handleGoogleSuccess = async (
+    credentialResponse: CredentialResponse
+  ) => {
+    if (!credentialResponse.credential) return;
+
+    setIsLoading(true);
+    try {
+      const response = await axios.post(
+        `${import.meta.env.VITE_BACKEND_URL}/user/google-login`,
+        {
+          credential: credentialResponse.credential,
+        }
+      );
+      console.log(response);
+      if (response.status === 200) {
+        setLogined(true);
+        setUser(response.data.user);
+        localStorage.setItem("token", response.data.token);
+        axios.defaults.headers.common[
+          "Authorization"
+        ] = `Bearer ${response.data.token}`;
+        navigate("/home");
+      }
+    } catch (error) {
+      console.error("Google Login Error:", error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   return (
     <Box className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
       <Typography variant="h4" className="!mb-5 !font-bold !font-pavelt">
@@ -96,73 +150,77 @@ const SignIn = () => {
           onSubmit={handleSubmit(onSubmit)}
           className="space-y-4 flex flex-col items-start"
         >
-          <FormControl sx={{ width: "100%" }} variant="outlined">
-            <InputLabel htmlFor="outlined-adornment-password">Email</InputLabel>
-            <OutlinedInput
-              id="outlined-adornment-email"
-              type="email"
-              error={!!errors.email}
-              endAdornment={
-                <InputAdornment position="end">
-                  <Email />
-                </InputAdornment>
-              }
-              label="Email"
-              {...register("email", {
-                required: "Email is required",
-                pattern: {
-                  value: /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/i,
-                  message: "Invalid email address",
-                },
-              })}
-            />
-            {errors.email && (
-              <Typography variant="caption" color="error" sx={{ mt: 1 }}>
-                {errors.email.message}
-              </Typography>
-            )}
-          </FormControl>
-
-          <FormControl sx={{ width: "100%" }} variant="outlined">
-            <InputLabel htmlFor="outlined-adornment-password">
-              Password
-            </InputLabel>
-            <OutlinedInput
-              id="outlined-adornment-password"
-              type={showPassword ? "text" : "password"}
-              error={!!errors.password}
-              endAdornment={
-                <InputAdornment position="end">
-                  <IconButton
-                    aria-label={
-                      showPassword
-                        ? "hide the password"
-                        : "display the password"
-                    }
-                    onClick={handleClickShowPassword}
-                    onMouseDown={handleMouseDownPassword}
-                    onMouseUp={handleMouseUpPassword}
-                    edge="end"
-                  >
-                    {showPassword ? <VisibilityOff /> : <Visibility />}
-                  </IconButton>
-                </InputAdornment>
-              }
-              label="Password"
-              {...register("password", {
-                required: "Password is required",
-                minLength: {
-                  value: 8,
-                  message: "Password must be at least 8 characters long",
-                },
-              })}
-            />
-            {errors.password && (
-              <Typography variant="caption" color="error" sx={{ mt: 1 }}>
-                {errors.password.message}
-              </Typography>
-            )}
-          </FormControl>
+          {loginWithEmail ? (
+            <FormControl sx={{ width: "100%" }} variant="outlined">
+              <InputLabel htmlFor="outlined-adornment-password">
+                Email
+              </InputLabel>
+              <OutlinedInput
+                id="outlined-adornment-email"
+                type="email"
+                error={!!errors.email}
+                endAdornment={
+                  <InputAdornment position="end">
+                    <Email />
+                  </InputAdornment>
+                }
+                label="Email"
+                {...register("email", {
+                  required: "Email is required",
+                  pattern: {
+                    value: /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/i,
+                    message: "Invalid email address",
+                  },
+                })}
+              />
+              {errors.email && (
+                <Typography variant="caption" color="error" sx={{ mt: 1 }}>
+                  {errors.email.message}
+                </Typography>
+              )}
+            </FormControl>
+          ) : (
+            <FormControl sx={{ width: "100%" }} variant="outlined">
+              <InputLabel htmlFor="outlined-adornment-password">
+                Password
+              </InputLabel>
+              <OutlinedInput
+                id="outlined-adornment-password"
+                type={showPassword ? "text" : "password"}
+                error={!!errors.password}
+                endAdornment={
+                  <InputAdornment position="end">
+                    <IconButton
+                      aria-label={
+                        showPassword
+                          ? "hide the password"
+                          : "display the password"
+                      }
+                      onClick={handleClickShowPassword}
+                      onMouseDown={handleMouseDownPassword}
+                      onMouseUp={handleMouseUpPassword}
+                      edge="end"
+                    >
+                      {showPassword ? <VisibilityOff /> : <Visibility />}
+                    </IconButton>
+                  </InputAdornment>
+                }
+                label="Password"
+                {...register("password", {
+                  required: "Password is required",
+                  minLength: {
+                    value: 8,
+                    message: "Password must be at least 8 characters long",
+                  },
+                })}
+              />
+              {errors.password && (
+                <Typography variant="caption" color="error" sx={{ mt: 1 }}>
+                  {errors.password.message}
+                </Typography>
+              )}
+            </FormControl>
+          )}
 
           <Button
             type="submit"
@@ -200,17 +258,18 @@ const SignIn = () => {
         <Divider>or</Divider>
 
         <div className="space-y-2">
-          <Button
-            variant="outlined"
-            fullWidth
-            startIcon={<Google />}
-            onClick={() => {
-              /* Handle Google Sign In */
-            }}
-            className="border-gray-300"
-          >
-            Continue with Google
-          </Button>
+          <GoogleOAuthProvider clientId={import.meta.env.VITE_GOOGLE_CLIENT_ID}>
+            <GoogleLogin
+              onSuccess={handleGoogleSuccess}
+              onError={() => {
+                console.error("Google Login Error");
+              }}
+              theme="outline"
+              size="large"
+              width="100%"
+              text="continue_with"
+            />
+          </GoogleOAuthProvider>
 
           <Button
             variant="outlined"
