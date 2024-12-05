@@ -9,7 +9,7 @@ const VerifyToken = () => {
   const { setUser, setLogined } = useAuth();
 
   useEffect(() => {
-    const jwtToken = localStorage.getItem("token");
+    const jwtToken = localStorage.getItem("EDITH_token");
     if (!jwtToken) {
       const fp = searchParams.get("firstpart");
       const sp = searchParams.get("secondpart");
@@ -22,7 +22,7 @@ const VerifyToken = () => {
           })
           .then((res) => {
             if (res.status === 200) {
-              localStorage.setItem("token", res.data.token);
+              localStorage.setItem("EDITH_token", res.data.token);
               axios.defaults.headers.common["authorization"] = res.data.token;
               setLogined(true);
               setUser(res.data.user);

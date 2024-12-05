@@ -1,5 +1,5 @@
 import { useAuth } from "@/context/AuthContext";
-import { Email, Twitter, Visibility, VisibilityOff } from "@mui/icons-material";
+import { Email, Visibility, VisibilityOff } from "@mui/icons-material";
 import {
   Button,
   Divider,
@@ -49,7 +49,7 @@ const SignIn = () => {
         if (response.status === 200) {
           setLogined(true);
           setUser(response.data.user);
-          localStorage.setItem("token", response.data.token);
+          localStorage.setItem("EDITH_token", response.data.token);
           axios.defaults.headers.common[
             "Authorization"
           ] = `Bearer ${response.data.token}`;
@@ -73,7 +73,7 @@ const SignIn = () => {
         if (response.status === 200) {
           setLogined(true);
           setUser(response.data.user);
-          localStorage.setItem("token", response.data.token);
+          localStorage.setItem("EDITH_token", response.data.token);
           axios.defaults.headers.common[
             "Authorization"
           ] = `Bearer ${response.data.token}`;
@@ -92,6 +92,21 @@ const SignIn = () => {
 
   useEffect(() => {
     if (logined) navigate("/home");
+
+    const validToken = async () => {
+      await axios
+        .post(`${import.meta.env.VITE_BACKEND_URL}/user/login-with-token`, {
+          token: localStorage.getItem("EDITH_token"),
+        })
+        .then((res) => {
+          if (res.status === 200) {
+            setLogined(true);
+            setUser(res.data.user);
+            navigate("/home");
+          }
+        });
+    };
+    validToken();
   }, [logined, navigate]);
 
   const [showPassword, setShowPassword] = useState(false);
@@ -127,7 +142,7 @@ const SignIn = () => {
       if (response.status === 200) {
         setLogined(true);
         setUser(response.data.user);
-        localStorage.setItem("token", response.data.token);
+        localStorage.setItem("EDITH_token", response.data.token);
         axios.defaults.headers.common[
           "Authorization"
         ] = `Bearer ${response.data.token}`;
@@ -271,17 +286,6 @@ const SignIn = () => {
             />
           </GoogleOAuthProvider>
 
-          <Button
-            variant="outlined"
-            fullWidth
-            startIcon={<Twitter />}
-            onClick={() => {
-              /* Handle Twitter Sign In */
-            }}
-            className="border-gray-300"
-          >
-            Continue with Twitter
-          </Button>
         </div>
         <Typography variant="body2" className="text-center mt-4">
           Don't have an account?{" "}

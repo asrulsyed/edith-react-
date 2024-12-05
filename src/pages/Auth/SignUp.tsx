@@ -21,7 +21,6 @@ import {
   CredentialResponse,
 } from "@react-oauth/google";
 import { useToast } from "@/hooks/use-toast";
-import { TwitterLoginButton } from "react-social-login-buttons";
 
 interface SignUpProps {
   email: string;
@@ -101,7 +100,7 @@ const SignUp = () => {
       if (response.status === 200) {
         setLogined(true);
         setUser(response.data.user);
-        localStorage.setItem("token", response.data.token);
+        localStorage.setItem("EDITH_token", response.data.token);
         axios.defaults.headers.common[
           "Authorization"
         ] = `Bearer ${response.data.token}`;
@@ -114,56 +113,6 @@ const SignUp = () => {
     }
   };
 
-  const handleTwitterLogin = async () => {
-    setIsLoading(true);
-    try {
-      const response = await axios.get(
-        `${import.meta.env.VITE_BACKEND_URL}/user/twitter-login`
-      );
-      // Open Twitter auth in a popup window
-      const width = 600;
-      const height = 600;
-      const left = window.screen.width / 2 - width / 2;
-      const top = window.screen.height / 2 - height / 2;
-
-      window.open(
-        response.data.url,
-        "Twitter Auth",
-        `width=${width},height=${height},left=${left},top=${top}`
-      );
-
-      // Listen for the callback from Twitter
-      window.addEventListener("message", async (event) => {
-        if (event.data.type === "TWITTER_AUTH_SUCCESS") {
-          const { code } = event.data;
-
-          // Exchange the code for tokens
-          const tokenResponse = await axios.post(
-            `${import.meta.env.VITE_BACKEND_URL}/user/twitter/callback`,
-            { code }
-          );
-
-          if (tokenResponse.status === 200) {
-            setLogined(true);
-            setUser(tokenResponse.data.user);
-            localStorage.setItem("token", tokenResponse.data.token);
-            axios.defaults.headers.common[
-              "Authorization"
-            ] = `Bearer ${tokenResponse.data.token}`;
-            navigate("/home");
-          }
-        }
-      });
-    } catch (error) {
-      console.error("Twitter Login Error:", error);
-      toast({
-        variant: "destructive",
-        description: "Failed to login with Twitter",
-      });
-    } finally {
-      setIsLoading(false);
-    }
-  };
 
   return (
     <Box className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
@@ -292,7 +241,6 @@ const SignUp = () => {
             />
           </GoogleOAuthProvider>
 
-          <TwitterLoginButton onClick={handleTwitterLogin} className="!flex !justify-center !items-center !m-0 !w-full !h-10" />
         </div>
 
         <Typography variant="body2" className="text-center mt-4">

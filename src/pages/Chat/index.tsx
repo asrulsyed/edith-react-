@@ -4,7 +4,7 @@ const Chat = () => {
   const navigate = useNavigate();
   
   return (
-    <div>
+    <div className="flex-1 flex flex-col ">
       <div className="flex gap-4 px-4 mt-2">
         <button className="h-10 flex items-center justify-center" onClick={() => navigate("/chat/llm-chat")}>LLM Chat</button>
         <button className="h-10 flex items-center justify-center" onClick={() => navigate("/chat/settings")}>Settings</button>

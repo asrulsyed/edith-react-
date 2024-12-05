@@ -1,7 +1,7 @@
 const LLMChat = () => {
   return (
-    <div>
-      LLMChataaaaaa
+    <div className="flex-1 flex items-center">
+      
     </div>
   )
 }
