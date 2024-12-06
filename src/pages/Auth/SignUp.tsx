@@ -1,30 +1,23 @@
-import { Link, useNavigate } from "react-router-dom";
-import { Email, Visibility, VisibilityOff } from "@mui/icons-material";
+import { useToast } from "@/hooks/use-toast";
+import { Email, Person2 } from "@mui/icons-material";
 import {
+  Box,
   Button,
   Divider,
-  Box,
-  Typography,
-  InputAdornment,
   FormControl,
-  OutlinedInput,
+  InputAdornment,
   InputLabel,
-  IconButton,
+  OutlinedInput,
+  Typography,
 } from "@mui/material";
-import { useEffect, useState } from "react";
-import { useForm } from "react-hook-form";
 import axios from "axios";
-import { useAuth } from "@/context/AuthContext";
-import {
-  GoogleLogin,
-  GoogleOAuthProvider,
-  CredentialResponse,
-} from "@react-oauth/google";
-import { useToast } from "@/hooks/use-toast";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { Link, useNavigate } from "react-router-dom";
 
 interface SignUpProps {
+  name: string;
   email: string;
-  password: string;
 }
 
 const SignUp = () => {
@@ -36,28 +29,21 @@ const SignUp = () => {
   } = useForm<SignUpProps>({});
 
   const [isLoading, setIsLoading] = useState(false);
-  const { setToken, setUser, logined, setLogined } = useAuth();
   const { toast } = useToast();
-
-  useEffect(() => {
-    if (logined) navigate("/home");
-  }, [logined, navigate]);
 
   const onSubmit = async (data: SignUpProps) => {
     setIsLoading(true);
     try {
-      const response = await axios.post(
-        `${import.meta.env.VITE_BACKEND_URL}/user/register`,
-        data
+      const res = await axios.post(
+        `${import.meta.env.VITE_BACKEND_URL}/auth/magic-link`,
+        { name: data.name, destination: data.email },
       );
-      if (response.status === 200) {
-        setToken(response.data.token);
-        setUser(response.data.user);
+      if (res.status === 200) {
         navigate("/user/verify");
       } else {
         toast({
           variant: "destructive",
-          description: response.data,
+          description: res.data,
         });
       }
     } catch (error) {
@@ -66,53 +52,6 @@ const SignUp = () => {
       setIsLoading(false);
     }
   };
-
-  const [showPassword, setShowPassword] = useState(false);
-
-  const handleClickShowPassword = () => setShowPassword((show) => !show);
-
-  const handleMouseDownPassword = (
-    event: React.MouseEvent<HTMLButtonElement>
-  ) => {
-    event.preventDefault();
-  };
-
-  const handleMouseUpPassword = (
-    event: React.MouseEvent<HTMLButtonElement>
-  ) => {
-    event.preventDefault();
-  };
-
-  const handleGoogleSuccess = async (
-    credentialResponse: CredentialResponse
-  ) => {
-    if (!credentialResponse.credential) return;
-
-    setIsLoading(true);
-    try {
-      const response = await axios.post(
-        `${import.meta.env.VITE_BACKEND_URL}/user/google-login`,
-        {
-          credential: credentialResponse.credential,
-        }
-      );
-      console.log(response);
-      if (response.status === 200) {
-        setLogined(true);
-        setUser(response.data.user);
-        localStorage.setItem("EDITH_token", response.data.token);
-        axios.defaults.headers.common[
-          "Authorization"
-        ] = `Bearer ${response.data.token}`;
-        navigate("/home");
-      }
-    } catch (error) {
-      console.error("Google Login Error:", error);
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
 
   return (
     <Box className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
@@ -124,6 +63,29 @@ const SignUp = () => {
           onSubmit={handleSubmit(onSubmit)}
           className="space-y-4 flex flex-col items-start"
         >
+          <FormControl sx={{ width: "100%" }} variant="outlined">
+            <InputLabel htmlFor="outlined-adornment-password">Name</InputLabel>
+            <OutlinedInput
+              id="outlined-adornment-password"
+              type="text"
+              error={!!errors.name}
+              endAdornment={
+                <InputAdornment position="end">
+                  <Person2 />
+                </InputAdornment>
+              }
+              label="Name"
+              {...register("name", {
+                required: "Name is required",
+              })}
+            />
+            {errors.name && (
+              <Typography variant="caption" color="error" sx={{ mt: 1 }}>
+                {errors.name.message}
+              </Typography>
+            )}
+          </FormControl>
+
           <FormControl sx={{ width: "100%" }} variant="outlined">
             <InputLabel htmlFor="outlined-adornment-password">Email</InputLabel>
             <OutlinedInput
@@ -147,47 +109,6 @@ const SignUp = () => {
             {errors.email && (
               <Typography variant="caption" color="error" sx={{ mt: 1 }}>
                 {errors.email.message}
-              </Typography>
-            )}
-          </FormControl>
-
-          <FormControl sx={{ width: "100%" }} variant="outlined">
-            <InputLabel htmlFor="outlined-adornment-password">
-              Password
-            </InputLabel>
-            <OutlinedInput
-              id="outlined-adornment-password"
-              type={showPassword ? "text" : "password"}
-              error={!!errors.password}
-              endAdornment={
-                <InputAdornment position="end">
-                  <IconButton
-                    aria-label={
-                      showPassword
-                        ? "hide the password"
-                        : "display the password"
-                    }
-                    onClick={handleClickShowPassword}
-                    onMouseDown={handleMouseDownPassword}
-                    onMouseUp={handleMouseUpPassword}
-                    edge="end"
-                  >
-                    {showPassword ? <VisibilityOff /> : <Visibility />}
-                  </IconButton>
-                </InputAdornment>
-              }
-              label="Password"
-              {...register("password", {
-                required: "Password is required",
-                minLength: {
-                  value: 8,
-                  message: "Password must be at least 8 characters long",
-                },
-              })}
-            />
-            {errors.password && (
-              <Typography variant="caption" color="error" sx={{ mt: 1 }}>
-                {errors.password.message}
               </Typography>
             )}
           </FormControl>
@@ -224,23 +145,16 @@ const SignUp = () => {
             )}
           </Button>
         </form>
-
         <Divider>or</Divider>
-
-        <div className="space-y-4">
-          <GoogleOAuthProvider clientId={import.meta.env.VITE_GOOGLE_CLIENT_ID}>
-            <GoogleLogin
-              onSuccess={handleGoogleSuccess}
-              onError={() => {
-                console.error("Google Login Error");
-              }}
-              theme="outline"
-              size="large"
-              width="100%"
-              text="continue_with"
-            />
-          </GoogleOAuthProvider>
-
+        <div className="space-y-2">
+          <div>
+            <a href={`${import.meta.env.VITE_BACKEND_URL}/auth/google`}>
+              Login With Google
+            </a>
+          </div>
+          <div>
+            <a href="http://127.0.0.1:3500/auth/twitter">Login With Twitter</a>
+          </div>
         </div>
 
         <Typography variant="body2" className="text-center mt-4">
