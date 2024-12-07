@@ -32,6 +32,7 @@ body {
   justify-content: center;
   min-width: 320px;
   min-height: 100vh;
+  background-color: #000000
 }
 
 h1 {
@@ -61,7 +62,7 @@ button:focus-visible {
 @media (prefers-color-scheme: light) {
   :root {
     color: #213547;
-    background-color: #ffffff;
+    background-color: #1e1e1e;
   }
   a:hover {
     color: #747bff;
@@ -73,14 +74,14 @@ button:focus-visible {
 
 @font-face {
   font-family: 'Pavelt';
-  src: url('./fonts/Pavelt-JRjpM.ttf') format('truetype');
+  src: url('/fonts/Pavelt-JRjpM.ttf') format('truetype');
   font-weight: bold;
   font-style: normal;
 }
 
 @font-face {
   font-family: 'Pavelt';
-  src: url('./fonts/Pavelt-VG24B.ttf') format('truetype');
+  src: url('/fonts/Pavelt-VG24B.ttf') format('truetype');
   font-weight: normal;
   font-style: normal;
 }
@@ -142,10 +143,16 @@ button:focus-visible {
 }
 
 @layer base {
-  * {
-    @apply border-border;
-  }
-  body {
-    @apply bg-background text-foreground;
+  html {
+    --background-primary: #000000;
+    --background-secondary: #050505;
+    --button-primary: #0d0d0d;
+    --button-secondary: #e2e2e2;
+    --border-primary: #1a1a1a;
+    --border-secondary: #ffffff;
+    --font-primary: #ffffff;
+    --font-secondary: #000000;
+    --font-tertiary: #808080;
+    
   }
 }

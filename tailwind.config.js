@@ -55,7 +55,16 @@ export default {
   				'3': 'hsl(var(--chart-3))',
   				'4': 'hsl(var(--chart-4))',
   				'5': 'hsl(var(--chart-5))'
-  			}
+  			},
+				backgroundPrimary: 'var(--background-primary)',
+				backgroundSecondary: 'var(--background-secondary)',
+				borderPrimary: 'var(--border-primary)',
+				borderSecondary: 'var(--border-secondary)',
+				buttonPrimary: 'var(--button-primary)',
+				buttonSecondary: 'var(--button-secondary)',
+				fontPrimary: 'var(--font-primary)',
+				fontSecondary: 'var(--font-secondary)',
+				fontTertiary: 'var(--font-tertiary)',
   		}
   	}
   },

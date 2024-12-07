@@ -1,87 +1,88 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   DropdownMenu,
   DropdownMenuCheckboxItem,
   DropdownMenuContent,
   DropdownMenuSub,
-  DropdownMenuSubContent,
-  DropdownMenuSubTrigger,
   DropdownMenuTrigger,
 } from "../../ui/dropdown-menu";
 import { MenuItems } from "../../../stack";
+import { FaCheck, FaChevronDown } from "react-icons/fa6";
+import { useNavigate } from "react-router-dom";
 
 type MenuItem = {
   id: string;
   label: string;
   checked: boolean;
-  subItems: {
-    id: string;
-    label: string;
-    checked: boolean;
-  }[];
+  // subItems: {
+  //   id: string;
+  //   label: string;
+  //   checked: boolean;
+  // }[];
 };
 
 const DropDownMenu = () => {
   const [menuItems, setMenuItems] = useState<MenuItem[]>(MenuItems);
+  const [menuTitle, setMenuTitle] = useState<string>();
+  const [isOpen, setIsOpen] = useState<boolean>(false);
+  const navigate = useNavigate();
 
-  const handleItemClick = (itemId: string, subItemId?: string) => {
+  // const handleItemClick = (itemId: string, subItemId?: string) => {
+  //   setMenuItems((prevItems) =>
+  //     prevItems.map((item) => ({
+  //       ...item,
+  //       checked: item.id === itemId,
+  //       subItems: item.subItems.map((subItem) => ({
+  //         ...subItem,
+  //         checked: subItemId
+  //           ? subItem.id === subItemId && item.id === itemId
+  //           : false,
+  //       })),
+  //     }))
+  //   );
+  // };
+
+  const handleItemClick = (itemId: string) => {
     setMenuItems((prevItems) =>
       prevItems.map((item) => ({
         ...item,
         checked: item.id === itemId,
-        subItems: item.subItems.map((subItem) => ({
-          ...subItem,
-          checked: subItemId
-            ? subItem.id === subItemId && item.id === itemId
-            : false,
-        })),
       }))
     );
   };
 
+  useEffect(() => {
+    setMenuTitle(menuItems.find((item) => item.checked)?.label);
+  }, [menuItems]);
+
   return (
-    <DropdownMenu>
-      <DropdownMenuTrigger>
-        <div className="flex items-center gap-2">
-          <svg
-            width="44px"
-            height="44px"
-            viewBox="0 0 80 80"
-            version="1.1"
-            xmlns="http://www.w3.org/2000/svg"
-            xmlnsXlink="http://www.w3.org/1999/xlink"
-            className="w-6 h-6 rounded-full"
-          >
-            <defs>
-              <linearGradient x1="0%" y1="0%" x2="100%" y2="100%" id="g">
-                <stop stopColor="#f906d4" offset="0%"></stop>
-                <stop stopColor="#d4f906" offset="100%"></stop>
-              </linearGradient>
-            </defs>
-            <g
-              id="Page-1"
-              stroke="none"
-              strokeWidth="1"
-              fill="none"
-              fillRule="evenodd"
-            >
-              <rect
-                id="Rectangle"
-                fill="url(#g)"
-                x="0"
-                y="0"
-                width="80"
-                height="80"
-              ></rect>
-            </g>
-          </svg>
-          <span className="">E.D.I.T.H</span>
-        </div>
+    <DropdownMenu onOpenChange={setIsOpen}>
+      <DropdownMenuTrigger className="flex items-center justify-between h-10 w-[160px] bg-buttonPrimary border border-borderPrimary rounded-lg text-fontPrimary text-xl px-3 hover:border-borderSecondary focus:outline-none">
+        <span className="leading-none flex-1 text-center">{menuTitle}</span>
+        <FaChevronDown
+          className={`${
+            isOpen ? "rotate-180" : ""
+          } transition-all duration-150`}
+        />
       </DropdownMenuTrigger>
-      <DropdownMenuContent className="w-56" align="start">
+      <DropdownMenuContent
+        className="w-[160px] bg-buttonPrimary border-borderPrimary mt-[14px]"
+        align="start"
+      >
         {menuItems.map((item) => (
           <DropdownMenuSub key={item.id}>
-            <DropdownMenuSubTrigger>
+            <DropdownMenuCheckboxItem
+              checked={item.checked}
+              onCheckedChange={() => {
+                handleItemClick(item.id)
+                navigate(`/${item.id}`);
+              }}
+              className="text-fontPrimary hover:bg-buttonSecondary flex items-center justify-between px-3 py-2 [&>span]:hidden text-md text-center"
+            >
+              <p className="flex-1">{item.label}</p>
+              <FaCheck className={`${item.checked ? "visible" : "invisible"} w-4 h-4`} />
+            </DropdownMenuCheckboxItem>
+            {/* <DropdownMenuSubTrigger>
               <DropdownMenuCheckboxItem
                 checked={item.checked}
                 onCheckedChange={() => handleItemClick(item.id)}
@@ -100,7 +101,7 @@ const DropDownMenu = () => {
                   {subItem.label}
                 </DropdownMenuCheckboxItem>
               ))}
-            </DropdownMenuSubContent>
+            </DropdownMenuSubContent> */}
           </DropdownMenuSub>
         ))}
       </DropdownMenuContent>
