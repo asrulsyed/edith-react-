@@ -1,6 +1,6 @@
 export const MenuItems = [
   {
-    id: "chat",
+    id: "text",
     label: "LLM Chat",
     checked: true,
     // subItems: [

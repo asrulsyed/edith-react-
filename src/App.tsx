@@ -1,19 +1,20 @@
-import "./App.css";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Layout from "./components/Layout";
-import NotFound from "./pages/NotFound";
-import Chat from "./pages/Chat";
-import Image from "./pages/Image";
-import Video from "./pages/Video";
-import Audio from "./pages/Audio";
-import { AuthProvider } from "./context/AuthContext";
-import { Toaster } from "./components/ui/toaster";
-import { ToastProvider } from "./components/ui/toast";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import RequireAuth from "./components/Auth/RequireAuth";
 import SignIn from "./pages/Auth/SignIn";
 import SignUp from "./pages/Auth/SignUp";
 import Verify from "./pages/Auth/Verify";
 import VerifyToken from "./pages/Auth/VerifyToken";
+import Layout from "./components/Layout";
+import { ToastProvider } from "./components/ui/toast";
+import { Toaster } from "./components/ui/toaster";
+import { AuthProvider } from "./context/AuthContext";
+import Audio from "./pages/Chat/Audio";
+import Chat from "./pages/Chat/Chat";
+import Image from "./pages/Chat/Image";
+import Text from "./pages/Chat/Text";
+import Video from "./pages/Chat/Video";
+import NotFound from "./pages/NotFound";
+import "./App.css";
 
 const App = () => {
   return (
@@ -22,13 +23,17 @@ const App = () => {
         <ToastProvider>
           <BrowserRouter>
             <Routes>
-              <Route path="/" element={<Layout />}>
-                <Route path="/" element={<Chat />} />
-                <Route path="/chat" element={<Chat />}></Route>
-                <Route path="/image" element={RequireAuth(<Image />)}></Route>
-                <Route path="/video" element={RequireAuth(<Video />)}></Route>
-                <Route path="/audio" element={RequireAuth(<Audio />)}></Route>
+              <Route path="/">
+                <Route path="/" element={<Navigate to="/chat" replace />} />
+                <Route path="chat" element={<Layout />}>
+                  <Route path="" element={<Chat />} />
+                  <Route path="text" element={<Text />} />
+                  <Route path="image" element={RequireAuth(<Image />)} />
+                  <Route path="audio" element={RequireAuth(<Audio />)} />
+                  <Route path="video" element={RequireAuth(<Video />)} />
+                </Route>
                 <Route path="user">
+                  <Route path="" element={<Navigate to="/user/signin" replace />} />
                   <Route path="signup" element={<SignUp />} />
                   <Route path="signin" element={<SignIn />} />
                   <Route path="verify" element={<Verify />} />

@@ -11,3 +11,9 @@ export interface AuthContextType {
   setUser: (user: User | null) => void;
   setLogined: (logined: boolean) => void;
 } 
+
+export interface ChatContextType {
+  genType: string | "text";
+  setGenType: (genType: string) => void;
+}
+

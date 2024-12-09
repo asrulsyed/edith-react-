@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { FaCheck, FaChevronDown } from "react-icons/fa6";
 import {
   DropdownMenu,
   DropdownMenuCheckboxItem,
@@ -7,8 +8,7 @@ import {
   DropdownMenuTrigger,
 } from "../../ui/dropdown-menu";
 import { MenuItems } from "../../../stack";
-import { FaCheck, FaChevronDown } from "react-icons/fa6";
-import { useNavigate } from "react-router-dom";
+import { useChat } from "@/context/ChatContext";
 
 type MenuItem = {
   id: string;
@@ -22,10 +22,11 @@ type MenuItem = {
 };
 
 const DropDownMenu = () => {
+  const { setGenType } = useChat();
+
   const [menuItems, setMenuItems] = useState<MenuItem[]>(MenuItems);
   const [menuTitle, setMenuTitle] = useState<string>();
   const [isOpen, setIsOpen] = useState<boolean>(false);
-  const navigate = useNavigate();
 
   // const handleItemClick = (itemId: string, subItemId?: string) => {
   //   setMenuItems((prevItems) =>
@@ -57,8 +58,8 @@ const DropDownMenu = () => {
 
   return (
     <DropdownMenu onOpenChange={setIsOpen}>
-      <DropdownMenuTrigger className="flex items-center justify-between h-10 w-[160px] bg-buttonPrimary border border-borderPrimary rounded-lg text-fontPrimary text-xl px-3 hover:border-borderSecondary focus:outline-none">
-        <span className="leading-none flex-1 text-center">{menuTitle}</span>
+      <DropdownMenuTrigger className="flex justify-between items-center bg-buttonPrimary px-3 border border-borderPrimary hover:border-borderSecondary rounded-lg w-[160px] h-10 text-fontPrimary text-xl focus:outline-none">
+        <span className="flex-1 text-center leading-none">{menuTitle}</span>
         <FaChevronDown
           className={`${
             isOpen ? "rotate-180" : ""
@@ -66,7 +67,7 @@ const DropDownMenu = () => {
         />
       </DropdownMenuTrigger>
       <DropdownMenuContent
-        className="w-[160px] bg-buttonPrimary border-borderPrimary mt-[14px]"
+        className="bg-buttonPrimary mt-[14px] border-borderPrimary w-[160px]"
         align="start"
       >
         {menuItems.map((item) => (
@@ -74,13 +75,15 @@ const DropDownMenu = () => {
             <DropdownMenuCheckboxItem
               checked={item.checked}
               onCheckedChange={() => {
-                handleItemClick(item.id)
-                navigate(`/${item.id}`);
+                handleItemClick(item.id);
+                setGenType(item.id);
               }}
               className="text-fontPrimary hover:bg-buttonSecondary flex items-center justify-between px-3 py-2 [&>span]:hidden text-md text-center"
             >
               <p className="flex-1">{item.label}</p>
-              <FaCheck className={`${item.checked ? "visible" : "invisible"} w-4 h-4`} />
+              <FaCheck
+                className={`${item.checked ? "visible" : "invisible"} w-4 h-4`}
+              />
             </DropdownMenuCheckboxItem>
             {/* <DropdownMenuSubTrigger>
               <DropdownMenuCheckboxItem

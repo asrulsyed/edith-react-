@@ -1,3 +1,9 @@
+import { useState } from "react";
+import { CiLogin } from "react-icons/ci";
+import { FaCheck } from "react-icons/fa6";
+import { IoClose, IoMenu } from "react-icons/io5";
+import { useNavigate } from "react-router-dom";
+import { useChat } from "@/context/ChatContext";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -6,12 +12,7 @@ import {
   DropdownMenuSub,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { useState } from "react";
-import { IoClose, IoMenu } from "react-icons/io5";
-import { CiLogin } from "react-icons/ci";
 import { MenuItems } from "@/stack";
-import { FaCheck } from "react-icons/fa6";
-import { useNavigate } from "react-router-dom";
 
 type MenuItem = {
   id: string;
@@ -20,8 +21,10 @@ type MenuItem = {
 };
 
 const MobileDropDownMenu = () => {
-  const [isOpen, setIsOpen] = useState<boolean>(false);
+  const { setGenType } = useChat();
   const navigate = useNavigate();
+
+  const [isOpen, setIsOpen] = useState<boolean>(false);
   const [menuItems, setMenuItems] = useState<MenuItem[]>(MenuItems);
 
   const handleItemClick = (itemId: string) => {
@@ -35,21 +38,21 @@ const MobileDropDownMenu = () => {
 
   return (
     <DropdownMenu onOpenChange={setIsOpen}>
-      <DropdownMenuTrigger className="text-fontPrimary rounded-full border h-10 w-10 p-2 bg-buttonPrimary hover:bg-buttonSecondary border-borderPrimary hover:text-fontSecondary transition-all duration-300 outline-none focus:outline-none">
+      <DropdownMenuTrigger className="bg-buttonPrimary hover:bg-buttonSecondary p-2 border border-borderPrimary rounded-full w-10 h-10 text-fontPrimary hover:text-fontSecondary transition-all duration-300 focus:outline-none outline-none">
         {isOpen ? <IoClose size={24} /> : <IoMenu size={24} />}
       </DropdownMenuTrigger>
       <DropdownMenuContent
-        className="w-[200px] mt-[14px] bg-backgroundPrimary border-borderPrimary"
+        className="bg-backgroundPrimary mt-[14px] border-borderPrimary w-[200px]"
         align="end"
       >
-        <div className="sm:hidden block">
+        <div className="block sm:hidden">
           {menuItems.map((item) => (
             <DropdownMenuItem
               key={item.id}
-              className="flex items-center justify-between py-0 h-10 text-fontPrimary hover:bg-buttonPrimary hover:text-fontSecondary transition-all duration-300 text-base"
+              className="flex justify-between items-center hover:bg-buttonPrimary py-0 h-10 text-base text-fontPrimary hover:text-fontSecondary transition-all duration-300"
               onClick={() => {
                 handleItemClick(item.id);
-                navigate(`/${item.id}`);
+                setGenType(item.id);
               }}
             >
               {item.label}
@@ -59,21 +62,21 @@ const MobileDropDownMenu = () => {
             </DropdownMenuItem>
           ))}
         </div>
-        <DropdownMenuSeparator className="sm:hidden block bg-borderPrimary" />
+        <DropdownMenuSeparator className="block sm:hidden bg-borderPrimary" />
         <DropdownMenuSub>
-          <DropdownMenuItem className="py-0 h-10 text-fontPrimary hover:bg-buttonPrimary hover:text-fontSecondary transition-all duration-300 text-base">
+          <DropdownMenuItem className="hover:bg-buttonPrimary py-0 h-10 text-base text-fontPrimary hover:text-fontSecondary transition-all duration-300">
             Quests
           </DropdownMenuItem>
-          <DropdownMenuItem className="py-0 h-10 text-fontPrimary hover:bg-buttonPrimary hover:text-fontSecondary transition-all duration-300 text-base">
+          <DropdownMenuItem className="hover:bg-buttonPrimary py-0 h-10 text-base text-fontPrimary hover:text-fontSecondary transition-all duration-300">
             AI Agents
           </DropdownMenuItem>
-          <DropdownMenuItem className="py-0 h-10 text-fontPrimary hover:bg-buttonPrimary hover:text-fontSecondary transition-all duration-300 text-base">
+          <DropdownMenuItem className="hover:bg-buttonPrimary py-0 h-10 text-base text-fontPrimary hover:text-fontSecondary transition-all duration-300">
             Docs
           </DropdownMenuItem>
         </DropdownMenuSub>
         <DropdownMenuSeparator className="bg-borderPrimary" />
         <DropdownMenuItem
-          className="flex items-center justify-between py-0 h-10 text-fontPrimary hover:bg-buttonPrimary hover:text-fontSecondary transition-all duration-300 text-base"
+          className="flex justify-between items-center hover:bg-buttonPrimary py-0 h-10 text-base text-fontPrimary hover:text-fontSecondary transition-all duration-300"
           onClick={() => {
             navigate("/user/signin");
           }}

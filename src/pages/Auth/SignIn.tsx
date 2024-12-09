@@ -109,6 +109,9 @@ const SignIn = () => {
     validToken();
   }, [logined, navigate]);
 
+
+  useEffect(() => console.log("aaa"), [])
+
   const [showPassword, setShowPassword] = useState(false);
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
