@@ -44,9 +44,9 @@ const InputBox = () => {
     }
   };
 
-  const sendMessage = async () => {
+  const sendMessage = async (isRedo: boolean = false) => {
     // Must not send empty message
-    if (message === "") {
+    if (message === "" && !isRedo) {
       toast({
         variant: "destructive",
         title: "Must not send empty message!",
