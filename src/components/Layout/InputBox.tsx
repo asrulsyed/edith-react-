@@ -8,7 +8,7 @@ import { useEffect, useRef, useState } from "react";
 import { FaArrowRight, FaChevronDown, FaSpinner } from "react-icons/fa6";
 import { RiOpenaiFill } from "react-icons/ri";
 import { useLocation, useNavigate } from "react-router-dom";
-import OpenAI from "openai";
+// import OpenAI from "openai";
 import { useChat } from "@/context/ChatContext";
 
 const InputBox = () => {
@@ -54,11 +54,11 @@ const InputBox = () => {
       return
     };
 
-    const client = new OpenAI({
-      apiKey: import.meta.env.VITE_API_KEY,
-      baseURL: import.meta.env.VITE_BASE_URL,
-      dangerouslyAllowBrowser: true,
-    });
+    // const client = new OpenAI({
+    //   apiKey: import.meta.env.VITE_API_KEY,
+    //   baseURL: import.meta.env.VITE_BASE_URL,
+    //   dangerouslyAllowBrowser: true,
+    // });
 
     setIsStreaming(true);
     navigate(`/chat/${genType}`);
