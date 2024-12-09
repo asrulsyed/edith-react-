@@ -1,5 +1,5 @@
 import { createContext, useContext, useState } from "react";
-import { AuthContextType, User } from "@/lib/types";
+import { AuthContextType } from "@/lib/types";
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
@@ -7,17 +7,17 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [token, setToken] = useState<string | null>(
     localStorage.getItem("EDITH_token")
   );
-  const [user, setUser] = useState<User | null>(null);
+  // const [user, setUser] = useState<User | null>(null);
   const [logined, setLogined] = useState<boolean>(false);
 
   return (
     <AuthContext.Provider
       value={{
-        user,
+        // user,
         token,
         logined,
         setToken,
-        setUser,
+        // setUser,
         setLogined,
       }}
     >

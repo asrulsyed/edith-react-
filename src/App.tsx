@@ -20,7 +20,7 @@ import SignUp from "./pages/Auth/SignUp";
 import SignIn from "./pages/Auth/SignIn";
 import Verify from "./pages/Auth/Verify";
 import { AuthProvider } from "./context/AuthContext";
-import VerifyToken from "./pages/Auth/VerifyToken";
+import ConfirmToken from "./pages/Auth/ConfirmToken";
 import RequireAuth from "./components/Auth/RequireAuth";
 import { Toaster } from "./components/ui/toaster";
 import { ToastProvider } from "./components/ui/toast";
@@ -74,7 +74,7 @@ const App = () => {
                 <Route path="signin" element={<SignIn />} />
                 <Route path="signup" element={<SignUp />} />
                 <Route path="verify" element={<Verify />} />
-                <Route path="verify/token" element={<VerifyToken />} />
+                <Route path="confirm" element={<ConfirmToken />} />
               </Route>
             </Routes>
           </BrowserRouter>
