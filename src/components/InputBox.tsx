@@ -37,6 +37,8 @@ const InputBox = () => {
   };
 
   const sendMessage = () => {
+    setIsbottom(true)
+    setIsStreaming(true)
     console.log(message);
   };
 
