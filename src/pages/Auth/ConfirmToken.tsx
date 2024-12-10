@@ -13,7 +13,7 @@ const ConfirmToken = () => {
       setToken(token);
       setLogined(true);
       localStorage.setItem('EDITH_token', token);
-      navigate('/home');
+      navigate('/');
     }
   }, [navigate, searchParams, setLogined, setToken]);
 

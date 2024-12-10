@@ -67,7 +67,7 @@ const Header = () => {
             <div>
               <button
                 onClick={() => navigate("/user/signin")}
-                className="rounded-lg h-10 text-lg font-medium w-[120px] whitespace-nowrap flex items-center justify-center bg-buttonPrimary hover:bg-buttonSecondary text-fontPrimary hover:text-fontSecondary border-borderPrimary hover:border-borderSecondary transition-all duration-300"
+                className="rounded-lg h-10 text-lg font-medium w-[120px] whitespace-nowrap flex items-center justify-center bg-buttonTertiary hover:bg-buttonQuaternary text-fontSecondary border-borderPrimary hover:border-borderPrimary transition-all duration-300"
               >
                 Log In
               </button>

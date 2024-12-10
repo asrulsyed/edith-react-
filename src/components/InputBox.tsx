@@ -3,7 +3,7 @@ import {
   DropdownMenuContent,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { FaArrowRight, FaChevronDown, FaSpinner } from "react-icons/fa6";
 import { RiOpenaiFill } from "react-icons/ri";
 

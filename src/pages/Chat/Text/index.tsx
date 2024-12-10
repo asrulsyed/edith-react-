@@ -1,4 +1,4 @@
-import InputBox from "@/components/Layout/InputBox";
+import InputBox from "@/components/InputBox";
 
 const Text = () => {
   return (

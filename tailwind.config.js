@@ -62,6 +62,8 @@ export default {
 				borderSecondary: 'var(--border-secondary)',
 				buttonPrimary: 'var(--button-primary)',
 				buttonSecondary: 'var(--button-secondary)',
+				buttonTertiary: 'var(--button-tertiary)',
+				buttonQuaternary: 'var(--button-quaternary)',
 				fontPrimary: 'var(--font-primary)',
 				fontSecondary: 'var(--font-secondary)',
 				fontTertiary: 'var(--font-tertiary)',

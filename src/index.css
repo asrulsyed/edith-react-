@@ -148,6 +148,8 @@ button:focus-visible {
     --background-secondary: #050505;
     --button-primary: #0d0d0d;
     --button-secondary: #e2e2e2;
+    --button-tertiary: #ffffff;
+    --button-quaternary: #c8c8c8;
     --border-primary: #1a1a1a;
     --border-secondary: #ffffff;
     --font-primary: #ffffff;
