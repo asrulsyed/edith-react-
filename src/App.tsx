@@ -1,13 +1,13 @@
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import RequireAuth from "./components/Auth/RequireAuth";
-import SignIn from "./pages/Auth/SignIn";
-import SignUp from "./pages/Auth/SignUp";
-import Verify from "./pages/Auth/Verify";
-import ConfirmToken from "./pages/Auth/ConfirmToken";
 import Layout from "./components/Layout";
 import { ToastProvider } from "./components/ui/toast";
 import { Toaster } from "./components/ui/toaster";
 import { AuthProvider } from "./context/AuthContext";
+import ConfirmToken from "./pages/Auth/ConfirmToken";
+import SignIn from "./pages/Auth/SignIn";
+import SignUp from "./pages/Auth/SignUp";
+import Verify from "./pages/Auth/Verify";
 import Audio from "./pages/Chat/Audio";
 import Image from "./pages/Chat/Image";
 import Text from "./pages/Chat/Text";
