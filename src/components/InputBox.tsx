@@ -14,7 +14,7 @@ const InputBox = () => {
   const TEXTAREA_MIN_HEIGHT = "36px";
   const TEXTAREA_MAX_HEIGHT = "100px";
 
-  const { isStartChat, setIsStartChat, setMessages } = useChat();
+  const { isStartChat, setIsStartChat } = useChat();
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
   const [isOpen, setIsOpen] = useState<boolean>(false);
