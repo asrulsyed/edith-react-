@@ -9,7 +9,6 @@ import { ToastProvider } from "./components/ui/toast";
 import { Toaster } from "./components/ui/toaster";
 import { AuthProvider } from "./context/AuthContext";
 import Audio from "./pages/Chat/Audio";
-import Chat from "./pages/Chat/Chat";
 import Image from "./pages/Chat/Image";
 import Text from "./pages/Chat/Text";
 import Video from "./pages/Chat/Video";
@@ -26,7 +25,7 @@ const App = () => {
               <Route path="/">
                 <Route path="/" element={<Navigate to="/chat" replace />} />
                 <Route path="chat" element={<Layout />}>
-                  <Route path="" element={<Chat />} />
+                  <Route path="" element={<Navigate to="/chat/text" replace />} />
                   <Route path="text" element={<Text />} />
                   <Route path="image" element={RequireAuth(<Image />)} />
                   <Route path="audio" element={RequireAuth(<Audio />)} />

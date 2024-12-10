@@ -17,3 +17,8 @@ export interface ChatContextType {
   setGenType: (genType: string) => void;
 }
 
+export interface Message {
+  role: string;
+  content: string;
+  timeStamp: Date;
+}
