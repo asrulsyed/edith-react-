@@ -3,23 +3,15 @@ import {
   DropdownMenuContent,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { toast } from "@/hooks/use-toast";
 import { useEffect, useRef, useState } from "react";
 import { FaArrowRight, FaChevronDown, FaSpinner } from "react-icons/fa6";
 import { RiOpenaiFill } from "react-icons/ri";
-import { useLocation, useNavigate } from "react-router-dom";
-// import OpenAI from "openai";
-import { useChat } from "@/context/ChatContext";
 
 const InputBox = () => {
   const TEXTAREA_MIN_HEIGHT = "36px";
   const TEXTAREA_MAX_HEIGHT = "100px";
 
-  const location = useLocation();
-  const navigate = useNavigate();
   const textareaRef = useRef<HTMLTextAreaElement>(null);
-
-  const { genType } = useChat();
 
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [isStreaming, setIsStreaming] = useState<boolean>(false);
@@ -44,31 +36,9 @@ const InputBox = () => {
     }
   };
 
-  const sendMessage = async (isRedo: boolean = false) => {
-    // Must not send empty message
-    if (message === "" && !isRedo) {
-      toast({
-        variant: "destructive",
-        title: "Must not send empty message!",
-      })
-      return
-    };
-
-    // const client = new OpenAI({
-    //   apiKey: import.meta.env.VITE_API_KEY,
-    //   baseURL: import.meta.env.VITE_BASE_URL,
-    //   dangerouslyAllowBrowser: true,
-    // });
-
-    setIsStreaming(true);
-    navigate(`/chat/${genType}`);
+  const sendMessage = () => {
+    console.log(message);
   };
-
-  useEffect(() => {
-    const pathname = location.pathname;
-    if (pathname === '/chat') setIsbottom(false);
-    else setIsbottom(true);
-  }, [location]);
 
   return (
     <div className={`${isbottom ? 'fixed bottom-5 max-w-[730px]' : ''} flex  justify-between items-center gap-4 bg-buttonPrimary p-[21px] border border-borderPrimary rounded-[40px] w-full`}>

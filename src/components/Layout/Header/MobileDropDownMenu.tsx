@@ -3,7 +3,6 @@ import { CiLogin } from "react-icons/ci";
 import { FaCheck } from "react-icons/fa6";
 import { IoClose, IoMenu } from "react-icons/io5";
 import { useNavigate } from "react-router-dom";
-import { useChat } from "@/context/ChatContext";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -21,7 +20,6 @@ type MenuItem = {
 };
 
 const MobileDropDownMenu = () => {
-  const { setGenType } = useChat();
   const navigate = useNavigate();
 
   const [isOpen, setIsOpen] = useState<boolean>(false);
@@ -52,7 +50,7 @@ const MobileDropDownMenu = () => {
               className="flex justify-between items-center hover:bg-buttonPrimary py-0 h-10 text-base text-fontPrimary hover:text-fontSecondary transition-all duration-300"
               onClick={() => {
                 handleItemClick(item.id);
-                setGenType(item.id);
+                navigate(`/chat/${item.id}`);
               }}
             >
               {item.label}

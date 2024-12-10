@@ -1,29 +1,22 @@
-import { useAuth } from "@/context/AuthContext";
-import { Email, Visibility, VisibilityOff } from "@mui/icons-material";
+import { useToast } from "@/hooks/use-toast";
+import { Email } from "@mui/icons-material";
 import {
+  Box,
   Button,
   Divider,
-  Box,
-  Typography,
-  InputAdornment,
   FormControl,
-  OutlinedInput,
+  InputAdornment,
   InputLabel,
-  IconButton,
+  OutlinedInput,
+  Typography,
 } from "@mui/material";
-import {
-  CredentialResponse,
-  GoogleLogin,
-  GoogleOAuthProvider,
-} from "@react-oauth/google";
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 
 interface SignInProps {
   email: string;
-  password: string;
 }
 
 const SignIn = () => {
@@ -34,125 +27,26 @@ const SignIn = () => {
   } = useForm<SignInProps>();
 
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [loginWithEmail, setLoginWithEmail] = useState<boolean>(true);
   const navigate = useNavigate();
-  const { setLogined, setUser, logined } = useAuth();
+  const { toast } = useToast();
 
   const onSubmit = async (data: SignInProps) => {
     setIsLoading(true);
-    if (!data.password) {
-      try {
-        const response = await axios.post(
-          `${import.meta.env.VITE_BACKEND_URL}/user/login-with-email`,
-          data
-        );
-        if (response.status === 200) {
-          setLogined(true);
-          setUser(response.data.user);
-          localStorage.setItem("EDITH_token", response.data.token);
-          axios.defaults.headers.common[
-            "Authorization"
-          ] = `Bearer ${response.data.token}`;
-          navigate("/home");
-        } else if (response.status === 201) {
-          setLoginWithEmail(false);
-          setUser(response.data.user);
-        }
-      } catch (error) {
-        console.log(error);
-      } finally {
-        setIsLoading(false);
-      }
-    } else {
-      try {
-        const response = await axios.post(
-          `${import.meta.env.VITE_BACKEND_URL}/user/login`,
-          data
-        );
-        console.log(response);
-        if (response.status === 200) {
-          setLogined(true);
-          setUser(response.data.user);
-          localStorage.setItem("EDITH_token", response.data.token);
-          axios.defaults.headers.common[
-            "Authorization"
-          ] = `Bearer ${response.data.token}`;
-          navigate("/home");
-        } else if (response.status === 201) {
-          console.log(response);
-          navigate("/user/verify");
-        }
-      } catch (error) {
-        console.log(error);
-      } finally {
-        setIsLoading(false);
-      }
-    }
-  };
-
-  useEffect(() => {
-    if (logined) navigate("/home");
-
-    const validToken = async () => {
-      await axios
-        .post(`${import.meta.env.VITE_BACKEND_URL}/user/login-with-token`, {
-          token: localStorage.getItem("EDITH_token"),
-        })
-        .then((res) => {
-          if (res.status === 200) {
-            setLogined(true);
-            setUser(res.data.user);
-            navigate("/home");
-          }
-        });
-    };
-    validToken();
-  }, [logined, navigate]);
-
-
-  useEffect(() => console.log("aaa"), [])
-
-  const [showPassword, setShowPassword] = useState(false);
-
-  const handleClickShowPassword = () => setShowPassword((show) => !show);
-
-  const handleMouseDownPassword = (
-    event: React.MouseEvent<HTMLButtonElement>
-  ) => {
-    event.preventDefault();
-  };
-
-  const handleMouseUpPassword = (
-    event: React.MouseEvent<HTMLButtonElement>
-  ) => {
-    event.preventDefault();
-  };
-
-  const handleGoogleSuccess = async (
-    credentialResponse: CredentialResponse
-  ) => {
-    if (!credentialResponse.credential) return;
-
-    setIsLoading(true);
     try {
-      const response = await axios.post(
-        `${import.meta.env.VITE_BACKEND_URL}/user/google-login`,
-        {
-          credential: credentialResponse.credential,
-        }
+      const res = await axios.post(
+        `${import.meta.env.VITE_BACKEND_URL}/auth/magic-link`,
+        { destination: data.email },
       );
-      console.log(response);
-      if (response.status === 200) {
-        setLogined(true);
-        setUser(response.data.user);
-        localStorage.setItem("EDITH_token", response.data.token);
-        axios.defaults.headers.common[
-          "Authorization"
-        ] = `Bearer ${response.data.token}`;
-        navigate("/home");
+      if (res.status === 200) {
+        navigate("/user/verify");
+      } else {
+        toast({
+          variant: "destructive",
+          description: res.data,
+        });
       }
     } catch (error) {
-      console.error("Google Login Error:", error);
+      console.error("Registration error:", error);
     } finally {
       setIsLoading(false);
     }
@@ -168,77 +62,32 @@ const SignIn = () => {
           onSubmit={handleSubmit(onSubmit)}
           className="space-y-4 flex flex-col items-start"
         >
-          {loginWithEmail ? (
-            <FormControl sx={{ width: "100%" }} variant="outlined">
-              <InputLabel htmlFor="outlined-adornment-password">
-                Email
-              </InputLabel>
-              <OutlinedInput
-                id="outlined-adornment-email"
-                type="email"
-                error={!!errors.email}
-                endAdornment={
-                  <InputAdornment position="end">
-                    <Email />
-                  </InputAdornment>
-                }
-                label="Email"
-                {...register("email", {
-                  required: "Email is required",
-                  pattern: {
-                    value: /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/i,
-                    message: "Invalid email address",
-                  },
-                })}
-              />
-              {errors.email && (
-                <Typography variant="caption" color="error" sx={{ mt: 1 }}>
-                  {errors.email.message}
-                </Typography>
-              )}
-            </FormControl>
-          ) : (
-            <FormControl sx={{ width: "100%" }} variant="outlined">
-              <InputLabel htmlFor="outlined-adornment-password">
-                Password
-              </InputLabel>
-              <OutlinedInput
-                id="outlined-adornment-password"
-                type={showPassword ? "text" : "password"}
-                error={!!errors.password}
-                endAdornment={
-                  <InputAdornment position="end">
-                    <IconButton
-                      aria-label={
-                        showPassword
-                          ? "hide the password"
-                          : "display the password"
-                      }
-                      onClick={handleClickShowPassword}
-                      onMouseDown={handleMouseDownPassword}
-                      onMouseUp={handleMouseUpPassword}
-                      edge="end"
-                    >
-                      {showPassword ? <VisibilityOff /> : <Visibility />}
-                    </IconButton>
-                  </InputAdornment>
-                }
-                label="Password"
-                {...register("password", {
-                  required: "Password is required",
-                  minLength: {
-                    value: 8,
-                    message: "Password must be at least 8 characters long",
-                  },
-                })}
-              />
-              {errors.password && (
-                <Typography variant="caption" color="error" sx={{ mt: 1 }}>
-                  {errors.password.message}
-                </Typography>
-              )}
-            </FormControl>
-          )}
+          <FormControl sx={{ width: "100%" }} variant="outlined">
+            <InputLabel htmlFor="outlined-adornment-password">Email</InputLabel>
+            <OutlinedInput
+              id="outlined-adornment-email"
+              type="email"
+              error={!!errors.email}
+              endAdornment={
+                <InputAdornment position="end">
+                  <Email />
+                </InputAdornment>
+              }
+              label="Email"
+              {...register("email", {
+                required: "Email is required",
+                pattern: {
+                  value: /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/i,
+                  message: "Invalid email address",
+                },
+              })}
+            />
+            {errors.email && (
+              <Typography variant="caption" color="error" sx={{ mt: 1 }}>
+                {errors.email.message}
+              </Typography>
+            )}
+          </FormControl>
 
           <Button
             type="submit"
@@ -276,19 +125,14 @@ const SignIn = () => {
         <Divider>or</Divider>
 
         <div className="space-y-2">
-          <GoogleOAuthProvider clientId={import.meta.env.VITE_GOOGLE_CLIENT_ID}>
-            <GoogleLogin
-              onSuccess={handleGoogleSuccess}
-              onError={() => {
-                console.error("Google Login Error");
-              }}
-              theme="outline"
-              size="large"
-              width="100%"
-              text="continue_with"
-            />
-          </GoogleOAuthProvider>
-
+          <div>
+            <a href={`${import.meta.env.VITE_BACKEND_URL}/auth/google`}>
+              Login With Google
+            </a>
+          </div>
+          <div>
+            <a href="http://127.0.0.1:3500/auth/twitter">Login With Twitter</a>
+          </div>
         </div>
         <Typography variant="body2" className="text-center mt-4">
           Don't have an account?{" "}

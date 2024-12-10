@@ -3,9 +3,9 @@ import { Navigate } from "react-router-dom";
 
 const RequireAuth = (composedComponent: React.ReactNode) => {
   const Authentication = () => {
-    const { logined } = useAuth();
+    const { token } = useAuth();
 
-    return logined ? composedComponent : <Navigate to="/user/signin" />;
+    return token ? composedComponent : <Navigate to="/user/signin" />;
   };
 
   return <Authentication />;

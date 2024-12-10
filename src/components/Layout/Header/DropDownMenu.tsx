@@ -8,7 +8,7 @@ import {
   DropdownMenuTrigger,
 } from "../../ui/dropdown-menu";
 import { MenuItems } from "../../../stack";
-import { useChat } from "@/context/ChatContext";
+import { useNavigate } from "react-router-dom";
 
 type MenuItem = {
   id: string;
@@ -22,7 +22,7 @@ type MenuItem = {
 };
 
 const DropDownMenu = () => {
-  const { setGenType } = useChat();
+  const navigate = useNavigate();
 
   const [menuItems, setMenuItems] = useState<MenuItem[]>(MenuItems);
   const [menuTitle, setMenuTitle] = useState<string>();
@@ -76,7 +76,7 @@ const DropDownMenu = () => {
               checked={item.checked}
               onCheckedChange={() => {
                 handleItemClick(item.id);
-                setGenType(item.id);
+                navigate(`/chat/${item.id}`);
               }}
               className="text-fontPrimary hover:bg-buttonSecondary flex items-center justify-between px-3 py-2 [&>span]:hidden text-md text-center"
             >
