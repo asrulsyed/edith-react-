@@ -37,7 +37,10 @@ const SignIn = () => {
     try {
       const res = await axios.post(
         `${import.meta.env.VITE_BACKEND_URL}/auth/magic-link`,
-        { destination: data.email }
+        {
+          destination: data.email,
+          referralCode: localStorage.getItem("EDITH_code"),
+        }
       );
       if (res.status === 200) {
         navigate("/user/verify");
@@ -61,7 +64,6 @@ const SignIn = () => {
         className="flex items-center gap-1.5 bg-backgroundSecondary border-none outline-none focus:outline-none p-0 !mb-5"
         onClick={() => navigate("/")}
       >
-        <img src="/logo.png" alt="logo" className="w-9 h-9" />
         <Typography
           variant="h4"
           className="text-fontPrimary !font-pavelt !font-bold"

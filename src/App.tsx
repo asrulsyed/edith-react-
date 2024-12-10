@@ -1,5 +1,5 @@
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-import RequireAuth from "./components/Auth/RequireAuth";
+import { CodeVerify, TokenVerify } from "./components/Auth/RequireAuth";
 import Layout from "./components/Layout";
 import { ToastProvider } from "./components/ui/toast";
 import { Toaster } from "./components/ui/toaster";
@@ -10,10 +10,12 @@ import SignUp from "./pages/Auth/SignUp";
 import Verify from "./pages/Auth/Verify";
 import Audio from "./pages/Chat/Audio";
 import Image from "./pages/Chat/Image";
-import Text from "./pages/Chat/Text";
+// import Text from "./pages/Chat/Text";
 import Video from "./pages/Chat/Video";
 import NotFound from "./pages/NotFound";
 import "./App.css";
+import Code from "./pages/Code";
+import Home from "./pages/Home";
 
 const App = () => {
   return (
@@ -23,16 +25,19 @@ const App = () => {
           <BrowserRouter>
             <Routes>
               <Route path="/">
-                <Route path="/" element={<Navigate to="/chat" replace />} />
-                <Route path="chat" element={<Layout />}>
+                <Route path="" element={<Navigate to="/chat" replace />} />
+                <Route path="home" element={<Home />} />
+                <Route path="code" element={<Code />} />
+                <Route path="chat" element={CodeVerify(<Layout />)}>
                   <Route
                     path=""
                     element={<Navigate to="/chat/text" replace />}
                   />
-                  <Route path="text" element={<Text />} />
-                  <Route path="image" element={RequireAuth(<Image />)} />
-                  <Route path="audio" element={RequireAuth(<Audio />)} />
-                  <Route path="video" element={RequireAuth(<Video />)} />
+                  {/* <Route path="text" element={TokenVerify(<Text />)} /> */}
+                  <Route path="text" element={TokenVerify(<Home />)} />
+                  <Route path="image" element={TokenVerify(<Image />)} />
+                  <Route path="audio" element={TokenVerify(<Audio />)} />
+                  <Route path="video" element={TokenVerify(<Video />)} />
                 </Route>
                 <Route path="user">
                   <Route

@@ -3,6 +3,8 @@ import {
   DropdownMenuContent,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { useChat } from "@/context/ChatContext";
+import { toast } from "@/hooks/use-toast";
 import axios from "axios";
 import React, { useEffect, useRef, useState } from "react";
 import { FaArrowRight, FaChevronDown, FaSpinner } from "react-icons/fa6";
@@ -12,13 +14,13 @@ const InputBox = () => {
   const TEXTAREA_MIN_HEIGHT = "36px";
   const TEXTAREA_MAX_HEIGHT = "100px";
 
+  const { isStartChat, setIsStartChat, setMessages } = useChat();
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [isStreaming, setIsStreaming] = useState<boolean>(false);
-  const [message, setMessage] = useState<string>("");
+  const [inputPrompt, setInputPrompt] = useState<string>("");
   const [messageOver, setMessageOver] = useState<boolean>(false);
-  const [isbottom, setIsbottom] = useState<boolean>(false);
   const [textareaWidth, setTextareaWidth] = useState<number>(0);
 
   const adjustTextareaHeight = () => {
@@ -40,37 +42,48 @@ const InputBox = () => {
   };
 
   const sendMessage = async () => {
-    setIsbottom(true);
+    setIsStartChat(true);
     setIsStreaming(true);
     try {
       const res = await axios.post(
         `${import.meta.env.VITE_BACKEND_URL}/api/chat/generate`,
-        {prompt: message}
+        { prompt: inputPrompt }
       );
-      if (res.status === 200) console.log("aaa", res)
-    }
-    catch(error) {
-      console.error("error", error)
+      if (res.status === 200) {
+        console.log(res.data);
+      } else {
+        toast({
+          variant: "destructive",
+          title: "Server Error!",
+        });
+      }
+    } catch (error) {
+      toast({
+        variant: "destructive",
+        title: `${error}`,
+      });
+    } finally {
+      setIsStreaming(false);
     }
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    const newMessage = e.target.value;
-    setMessage(newMessage);
+    const newPrompt = e.target.value;
+    setInputPrompt(newPrompt);
     adjustTextareaHeight();
 
-    const textWidth = newMessage.length * 8;
+    const textWidth = newPrompt.length * 8;
     setMessageOver(textWidth > textareaWidth * 0.7);
   };
 
   useEffect(() => {
-    setTextareaWidth(textareaRef.current?.clientWidth || 0)
-  }, [])
+    setTextareaWidth(textareaRef.current?.clientWidth || 0);
+  }, []);
 
   return (
     <div
       className={`${
-        isbottom ? "fixed bottom-5 max-w-[730px]" : ""
+        isStartChat ? "fixed bottom-5 max-w-[730px]" : ""
       } flex flex-wrap justify-between items-center gap-4 bg-buttonPrimary p-[21px] border border-borderPrimary rounded-[40px] w-full`}
     >
       <div
@@ -83,7 +96,7 @@ const InputBox = () => {
           className="bg-transparent pt-2 border-none w-full h-[36px] font-semibold text-base text-fontPrimary placeholder:text-fontTertiary overflow-y-hidden outline-none resize-none"
           placeholder="Message EDITH..."
           onKeyDown={keyDownHandler}
-          value={message}
+          value={inputPrompt}
           onChange={(e) => handleChange(e)}
           translate="no"
           style={{

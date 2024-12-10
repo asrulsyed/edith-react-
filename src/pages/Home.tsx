@@ -1,4 +1,4 @@
-const Audio = () => {
+const Home = () => {
   return (
     <div className="w-screen h-screen bg-white flex items-center justify-center text-black">
       <div className="max-w-screen-lg -translate-y-1/4 px-10 ">
@@ -40,4 +40,4 @@ const Audio = () => {
   );
 };
 
-export default Audio;
+export default Home;

@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import DropDownMenu from "./DropDownMenu";
 import MobileDropDownMenu from "./MobileDropDownMenu";
-import { RiMenuFoldLine, RiMenuUnfoldLine } from "react-icons/ri";
+// import { RiMenuFoldLine, RiMenuUnfoldLine } from "react-icons/ri";
 import { useEffect, useRef, useState } from "react";
 
 const Header = () => {
@@ -80,7 +80,7 @@ const Header = () => {
       </header>
 
       {/* Left Sidebar */}
-      <div ref={leftSidebarRef} className="fixed top-[74px] left-0 flex">
+      {/* <div ref={leftSidebarRef} className="fixed top-[74px] left-0 flex">
         <div
           className={`${
             isLeftSidebar
@@ -105,10 +105,10 @@ const Header = () => {
             <RiMenuUnfoldLine className="text-fontPrimary w-5 h-5" />
           )}
         </button>
-      </div>
+      </div> */}
 
       {/* Right Sidebar */}
-      <div ref={rightSidebarRef} className="fixed top-[74px] right-0 flex">
+      {/* <div ref={rightSidebarRef} className="fixed top-[74px] right-0 flex">
         <button
           className={`${
             isRightSidebar
@@ -134,7 +134,7 @@ const Header = () => {
               : "scale-0 opacity-0 origin-right"
           }  transition-all duration-150 ease-out`}
         ></div>
-      </div>
+      </div> */}
     </>
   );
 };
