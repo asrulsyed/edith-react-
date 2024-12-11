@@ -1,5 +1,5 @@
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-import { CodeVerify, TokenVerify } from "./components/Auth/RequireAuth";
+import { CodeVerify } from "./components/Auth/RequireAuth";
 import Layout from "./components/Layout";
 import { ToastProvider } from "./components/ui/toast";
 import { Toaster } from "./components/ui/toaster";
@@ -8,10 +8,10 @@ import SignIn from "./pages/Auth/SignIn";
 import SignUp from "./pages/Auth/SignUp";
 import Verify from "./pages/Auth/Verify";
 import VerifyLink from "./pages/Auth/VerifyLink";
-import Audio from "./pages/Chat/Audio";
-import Image from "./pages/Chat/Image";
+// import Audio from "./pages/Chat/Audio";
+// import Image from "./pages/Chat/Image";
 import Text from "./pages/Chat/Text";
-import Video from "./pages/Chat/Video";
+// import Video from "./pages/Chat/Video";
 import NotFound from "./pages/NotFound";
 import "./App.css";
 import Code from "./pages/Code";
@@ -35,9 +35,9 @@ const App = () => {
                     element={<Navigate to="/chat/text" replace />}
                   />
                   <Route path="text" element={<Text />} />
-                  <Route path="image" element={TokenVerify(<Image />)} />
-                  <Route path="audio" element={TokenVerify(<Audio />)} />
-                  <Route path="video" element={TokenVerify(<Video />)} />
+                  <Route path="image" element={<Navigate to='/coming' replace />} />
+                  <Route path="audio" element={<Navigate to='/coming' replace />} />
+                  <Route path="video" element={<Navigate to='/coming' replace />} />
                 </Route>
                 <Route path="user">
                   <Route
