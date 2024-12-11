@@ -38,7 +38,7 @@ const Code = () => {
       if (res.status === 200) {
         setVerifyCode(res.data.code);
         localStorage.setItem("EDITH_code", res.data.code);
-        navigate('/user/signin')
+        navigate("/chat/text");
       } else {
         toast({
           variant: "destructive",
@@ -53,15 +53,16 @@ const Code = () => {
   };
 
   return (
-    <Box className="flex flex-col items-center justify-center min-h-screen bg-backgroundPrimary">
-      <div className="flex items-center gap-1.5 bg-backgroundSecondary border-none outline-none focus:outline-none p-0 !mb-5">
-        
-        <Typography
-          variant="h4"
-          className="text-fontPrimary !font-pavelt !font-bold"
-        >
-          E.D.I.T.H
-        </Typography>
+    <Box className="flex flex-col items-center justify-center min-h-screen bg-backgroundPrimary font-chakraPetch">
+      <div className="flex items-center bg-backgroundSecondary border-none outline-none focus:outline-none p-0 !mb-5">
+        <img
+          src="/logo-light.png"
+          alt="logo"
+          className="w-[20px] h-[23px] mr-0.5"
+        />
+        <span className="text-fontPrimary text-[32px] font-bold leading-[22px]">
+          .D.I.T.H
+        </span>
       </div>
 
       {/* form */}

@@ -1,9 +1,25 @@
+import { useNavigate } from "react-router-dom";
+
 const Video = () => {
+  const navigate = useNavigate();
+
   return (
-    <div className="w-screen h-screen bg-white flex items-center justify-center text-black">
+    <div className="w-screen h-screen bg-white flex items-center justify-center text-black font-chakraPetch">
       <div className="max-w-screen-lg -translate-y-1/4 px-10 ">
-        <p className="font-bold font-pavelt text-center text-4xl sm:text-[48px] lg:text-[50px] mb-5">E.D.I.T.H</p>
-        <p className="font-bold text-5xl sm:text-[64px] lg:text-[80px] text-center mb-8">COMING SOON!</p>
+        <button
+          className="flex items-end border-none outline-none focus:outline-none p-0 mb-8 mx-auto"
+          onClick={() => navigate("/")}
+        >
+          <img
+            src="/logo-dark.png"
+            alt="logo"
+            className="w-[38px] h-[45px] mr-0.5"
+          />
+          <span className="text-[64px] font-bold leading-[44px]">.D.I.T.H</span>
+        </button>
+        <p className="font-bold text-5xl sm:text-[64px] lg:text-[80px] text-center mb-8">
+          COMING SOON!
+        </p>
         <p className="text-xl sm:text-[28px] text-center leading-loose">
           EDITH is a groundbreaking Web3-based AI ecosystem that combines
           blockchain technology, decentralized collaboration, and intelligent

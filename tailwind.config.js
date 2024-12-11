@@ -8,7 +8,8 @@ export default {
   theme: {
   	extend: {
   		fontFamily: {
-  			pavelt: ['Pavelt', 'san-serif']
+  			pavelt: ['Pavelt', 'san-serif'],
+				'chakraPetch': ['"Chakra Petch"', 'sans-serif'],
   		},
   		borderRadius: {
   			lg: 'var(--radius)',

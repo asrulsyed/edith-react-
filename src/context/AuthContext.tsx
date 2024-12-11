@@ -5,7 +5,6 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [verifyCode, setVerifyCode] = useState<string | null>("");
-
   const [token, setToken] = useState<string | null>("");
   const [logined, setLogined] = useState<boolean>(false);
 
@@ -13,8 +12,6 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     setVerifyCode(localStorage.getItem("EDITH_code"));
     setToken(localStorage.getItem("EDITH_token"));
   }, []);
-
-  useEffect(() => console.log("aaa", verifyCode), [verifyCode])
 
   return (
     <AuthContext.Provider

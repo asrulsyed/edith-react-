@@ -3,13 +3,26 @@ import DropDownMenu from "./DropDownMenu";
 import MobileDropDownMenu from "./MobileDropDownMenu";
 // import { RiMenuFoldLine, RiMenuUnfoldLine } from "react-icons/ri";
 import { useEffect, useRef, useState } from "react";
+import { useAuth } from "@/context/AuthContext";
 
 const Header = () => {
+  const {logined, setLogined, setToken} = useAuth();
+
   const navigate = useNavigate();
   const leftSidebarRef = useRef<HTMLDivElement | null>(null);
   const rightSidebarRef = useRef<HTMLDivElement | null>(null);
   const [isLeftSidebar, setIsLeftSidebar] = useState<boolean>(false);
   const [isRightSidebar, setIsRightSidebar] = useState<boolean>(false);
+
+  const handleClick = () => {
+    if (logined) {
+      setLogined(false);
+      setToken("");
+      localStorage.removeItem('EDITH_token');
+    } else {
+      navigate("/user/signin")
+    }
+  }
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -29,24 +42,24 @@ const Header = () => {
         setIsRightSidebar(false);
       }
     };
-
+    console.log("logined", logined)
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, [isLeftSidebar, isRightSidebar]);
 
   return (
     <>
-      <header className="border-b-2 border-borderPrimary bg-backgroundSecondary fixed top-0 left-0 right-0 z-50">
+      <header className="border-b-2 border-borderPrimary bg-backgroundSecondary fixed top-0 left-0 right-0 z-50 font-chakraPetch">
         <div className="flex h-[72px] items-center px-4 sm:px-10 justify-between relative">
           <div className="flex items-center gap-10">
             <button
-              className="flex items-center gap-1.5 bg-backgroundSecondary border-none outline-none focus:outline-none p-0"
+              className="flex items-end bg-backgroundSecondary border-none outline-none focus:outline-none p-0"
               onClick={() => navigate("/")}
             >
-              <img src="/logo.png" alt="logo" className="w-9 h-9" />
-              <h1 className="text-fontPrimary text-2xl font-bold font-pavelt">
-                E.D.I.T.H
-              </h1>
+              <img src="/logo-light.png" alt="logo" className="w-[20px] h-[23px] mr-0.5" />
+              <span className="text-fontPrimary text-[32px] font-bold leading-[22px]">
+                .D.I.T.H
+              </span>
             </button>
             <div className="hidden sm:flex">
               <DropDownMenu />
@@ -66,10 +79,10 @@ const Header = () => {
             </div>
             <div>
               <button
-                onClick={() => navigate("/user/signin")}
+                onClick={handleClick}
                 className="rounded-lg h-10 text-lg font-medium w-[120px] whitespace-nowrap flex items-center justify-center bg-buttonTertiary hover:bg-buttonQuaternary text-fontSecondary border-borderPrimary hover:border-borderPrimary transition-all duration-300"
               >
-                Log In
+                {logined ? 'Log out' : 'Log in'}
               </button>
             </div>
           </div>

@@ -38,7 +38,11 @@ const SignUp = () => {
     try {
       const res = await axios.post(
         `${import.meta.env.VITE_BACKEND_URL}/auth/magic-link`,
-        { name: data.name, destination: data.email, referralCode: localStorage.getItem("EDITH_code") }
+        {
+          name: data.name,
+          destination: data.email,
+          referralCode: localStorage.getItem("EDITH_code"),
+        }
       );
       if (res.status === 200) {
         navigate("/user/verify");
@@ -56,19 +60,21 @@ const SignUp = () => {
   };
 
   return (
-    <Box className="flex flex-col items-center justify-center min-h-screen bg-backgroundPrimary">
+    <Box className="flex flex-col items-center justify-center min-h-screen bg-backgroundPrimary font-chakraPetch">
       {/* logo */}
-      <Button
-        className="flex items-center gap-1.5 bg-backgroundSecondary border-none outline-none focus:outline-none p-0 !mb-5"
+      <button
+        className="flex items-end bg-backgroundSecondary border-none outline-none focus:outline-none p-0"
         onClick={() => navigate("/")}
       >
-        <Typography
-          variant="h4"
-          className="text-fontPrimary !font-pavelt !font-bold"
-        >
-          E.D.I.T.H
-        </Typography>
-      </Button>
+        <img
+          src="/logo-light.png"
+          alt="logo"
+          className="w-[20px] h-[23px] mr-0.5"
+        />
+        <span className="text-fontPrimary text-[32px] font-bold leading-[22px]">
+          .D.I.T.H
+        </span>
+      </button>
 
       {/* form */}
       <Box className="w-full max-w-sm space-y-4 p-6">
