@@ -7,7 +7,7 @@ const Coming = () => {
     <div className="w-screen h-screen bg-white flex items-center justify-center text-black font-chakraPetch">
       <div className="max-w-screen-lg -translate-y-1/4 px-10">
         <button
-          className="flex items-end border-none outline-none focus:outline-none p-0 mb-8 mx-auto"
+          className="flex items-end border-none outline-none focus:outline-none p-0 mb-8 mx-auto bg-white"
           onClick={() => navigate("/")}
         >
           <img
@@ -37,7 +37,7 @@ const Coming = () => {
         </a>
         <a
           className="hover:cursor-pointer hover:scale-105"
-          href="https://discord.gg/ss4p3nyBKP"
+          href="https://discord.gg/eQ5HhuvHhT"
         >
           <img src="/discord.png" className="w-10 h-10 sm:w-16 sm:h-16" />
         </a>

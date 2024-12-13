@@ -1,3 +1,4 @@
+import ChatArea from "@/components/ChatArea";
 import InputBox from "@/components/InputBox";
 import { useChat } from "@/context/ChatContext";
 
@@ -24,7 +25,7 @@ const Text = () => {
             </div>
           </p>
         ) : (
-          <></>
+          <ChatArea />
         )}
         <InputBox />
       </div>

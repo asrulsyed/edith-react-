@@ -4,8 +4,6 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { useChat } from "@/context/ChatContext";
-import { toast } from "@/hooks/use-toast";
-import axios from "axios";
 import React, { useEffect, useRef, useState } from "react";
 import { FaArrowRight, FaChevronDown, FaSpinner } from "react-icons/fa6";
 import { RiOpenaiFill } from "react-icons/ri";
@@ -14,12 +12,16 @@ const InputBox = () => {
   const TEXTAREA_MIN_HEIGHT = "36px";
   const TEXTAREA_MAX_HEIGHT = "100px";
 
-  const { isStartChat, setIsStartChat } = useChat();
+  const {
+    isStartChat,
+    sendMessage,
+    setInputPrompt,
+    isStreaming,
+    inputPrompt,
+  } = useChat();
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
   const [isOpen, setIsOpen] = useState<boolean>(false);
-  const [isStreaming, setIsStreaming] = useState<boolean>(false);
-  const [inputPrompt, setInputPrompt] = useState<string>("");
   const [messageOver, setMessageOver] = useState<boolean>(false);
   const [textareaWidth, setTextareaWidth] = useState<number>(0);
 
@@ -38,32 +40,6 @@ const InputBox = () => {
     if (e.key === "Enter" && !e.shiftKey) {
       e.preventDefault();
       sendMessage();
-    }
-  };
-
-  const sendMessage = async () => {
-    setIsStartChat(true);
-    setIsStreaming(true);
-    try {
-      const res = await axios.post(
-        `${import.meta.env.VITE_BACKEND_URL}/api/chat/generate`,
-        { prompt: inputPrompt }
-      );
-      if (res.status === 200) {
-        console.log(res.data);
-      } else {
-        toast({
-          variant: "destructive",
-          title: "Server Error!",
-        });
-      }
-    } catch (error) {
-      toast({
-        variant: "destructive",
-        title: `${error}`,
-      });
-    } finally {
-      setIsStreaming(false);
     }
   };
 
@@ -121,10 +97,11 @@ const InputBox = () => {
       <div className="order-2">
         <button
           className="flex justify-center items-center bg-buttonPrimary hover:bg-buttonSecondary p-2 border-borderPrimary hover:border-borderSecondary rounded-full w-9 h-9 text-fontPrimary hover:text-fontSecondary"
-          onClick={() => {
+          onClick={(e) => {
             if (textareaRef.current) {
               textareaRef.current.style.height = TEXTAREA_MIN_HEIGHT;
             }
+            e.preventDefault()
             sendMessage();
           }}
         >

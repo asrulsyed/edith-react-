@@ -4,27 +4,27 @@ export interface User {
 }
 
 export interface AuthContextType {
-  // user: User | null;
   verifyCode: string | null;
   token: string | null;
   logined: boolean;
   setVerifyCode: (code: string | null) => void;
   setToken: (token: string | null) => void;
-  // setUser: (user: User | null) => void;
   setLogined: (logined: boolean) => void;
 } 
 
 export interface ChatContextType {
-  genType: string | "text";
-  setGenType: (genType: string) => void;
+  inputPrompt: string;
+  setInputPrompt: (inputPrompt: string) => void;
+  isStreaming: boolean;
+  setIsStreaming: (isStreaming: boolean) => void;
   isStartChat: boolean;
   setIsStartChat: (isStartChat: boolean) => void;
-  messages: Message[];
-  setMessages: (messages: Message[]) => void;
+  chatLog: Chat[];
+  setChatLog: (chatLog: Chat[]) => void;
+  sendMessage: () => void;
 }
 
-export interface Message {
-  role: string;
-  content: string;
-  timeStamp: Date;
+export interface Chat {
+  prompt: string;
+  response: string | null;
 }

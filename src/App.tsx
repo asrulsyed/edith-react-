@@ -26,7 +26,7 @@ const App = () => {
           <BrowserRouter>
             <Routes>
               <Route path="/">
-                <Route path="" element={<Navigate to="/chat" replace />} />
+                <Route path="" element={<Navigate to="/code" replace />} />
                 <Route path="code" element={<Code />} />
                 <Route path="coming" element={<Coming />} />
                 <Route path="chat" element={CodeVerify(<Layout />)}>
