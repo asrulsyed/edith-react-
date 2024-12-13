@@ -1,6 +1,7 @@
 import { Chat, ChatContextType } from "@/lib/types";
 import { createContext, useContext, useState } from "react";
 import OpenAI from "openai";
+import { toast } from "@/hooks/use-toast";
 
 const ChatContext = createContext<ChatContextType | undefined>(undefined);
 
@@ -36,21 +37,33 @@ export const ChatProvider = ({ children }: { children: React.ReactNode }) => {
         max_tokens: 150,
       });
 
-      // const assistantResponse = response.choices[0].message.content;
+      const assistantResponse = response.choices[0].message.content;
 
-      // setChatLog((prevChatLog) => {
-      //   const updatedLog = [...prevChatLog];
-      //   updatedLog[updatedLog.length - 1] = {
-      //     ...updatedLog[updatedLog.length - 1],
-      //     response: assistantResponse,
-      //   };
-      //   return updatedLog;
-      // });
-      console.log(response)
+      if (assistantResponse) {
+        setChatLog((prevChatLog) => {
+          const updatedLog = [...prevChatLog];
+          updatedLog[updatedLog.length - 1] = {
+            ...updatedLog[updatedLog.length - 1],
+            response: assistantResponse,
+          };
+          return updatedLog;
+        });
+      } else {
+        console.error("Error generating response");
+        toast({
+          variant: "destructive",
+          title: "Error generating response",
+        });
+      }
     } catch (error) {
       console.error("Error fetching response from OpenAI", error);
+      toast({
+        variant: "destructive",
+        title: "Error fetching response from OpenAi",
+        description: `${error}`,
+      });
     } finally {
-      setIsStreaming(false)
+      setIsStreaming(false);
     }
   };
 

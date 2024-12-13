@@ -9,7 +9,7 @@ import {
   Typography,
 } from "@mui/material";
 import axios from "axios";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 
@@ -51,6 +51,13 @@ const Code = () => {
       setIsLoading(false);
     }
   };
+
+  useEffect(() => {
+    const verifyCode = localStorage.getItem('EDITH_code');
+    if (verifyCode) {
+      navigate('/chat')
+    }
+  }, [navigate])
 
   return (
     <Box className="flex flex-col items-center justify-center min-h-screen bg-backgroundPrimary font-chakraPetch">

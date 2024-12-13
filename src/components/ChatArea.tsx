@@ -18,7 +18,12 @@ const ChatArea = () => {
 
   return (
     <div>
-      {/* {chatLog.map} */}
+      {chatLog.map((chat, id) => (
+        <div key={id}>
+          <div className="mb-2">{chat.prompt}</div>
+          <div>{chat.response}</div>
+        </div>
+      ))}
       <div ref={chatLogEndRef} />
     </div>
   );
