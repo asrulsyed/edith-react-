@@ -1,5 +1,8 @@
 import { useChat } from "@/context/ChatContext";
 import { useEffect, useRef } from "react";
+import UserPrompt from "./UserPrompt";
+import { Chat } from "@/lib/types";
+import Response from "./Response";
 
 const ChatArea = () => {
   const { chatLog } = useChat();
@@ -14,14 +17,19 @@ const ChatArea = () => {
     //     block: "end",
     //   });
     // }
+
+    if (typeof chatLog === 'string')
+      localStorage.setItem('EDITH_Chatlog', chatLog);
+    else localStorage.setItem('EDITH_Chatlog', JSON.stringify(chatLog));
+
   }, [chatLog]);
 
   return (
-    <div>
-      {chatLog.map((chat, id) => (
-        <div key={id}>
-          <div className="mb-2">{chat.prompt}</div>
-          <div>{chat.response}</div>
+    <div className="flex flex-col w-full gap-4">
+      {chatLog.map((chat: Chat, id: number) => (
+        <div key={id} className="flex flex-col w-full gap-6">
+          <UserPrompt prompt={chat.prompt} />
+          {chat.response !== null && <Response response={chat.response} />}
         </div>
       ))}
       <div ref={chatLogEndRef} />

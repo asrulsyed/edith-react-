@@ -1,4 +1,4 @@
-import ChatArea from "@/components/ChatArea";
+import ChatArea from "@/components/Chat/ChatArea";
 import InputBox from "@/components/InputBox";
 import { useChat } from "@/context/ChatContext";
 
@@ -6,14 +6,14 @@ const Text = () => {
   const { isStartChat } = useChat();
 
   return (
-    <main className="flex flex-col justify-center items-center min-h-[calc(100vh-74px)] text-sm leading-6 font-chakraPetch">
-      <div className="flex flex-col items-center gap-10 sm:gap-20 px-4 py-20 w-full max-w-[730px]">
+    <main className={`${isStartChat ? 'flex justify-center' : ' flex justify-center items-center h-full'} font-chakraPetch`}>
+      <div className="flex flex-col items-center gap-10 sm:gap-20 px-4 w-full max-w-[730px] mt-[100px] mb-[120px]">
         {!isStartChat ? (
-          <p className="font-bold  text-3xl text-fontPrimary whitespace-nowrap">
-            <span className="sm:block hidden">
+          <p className="text-3xl font-bold text-fontPrimary whitespace-nowrap">
+            <span className="hidden sm:block">
               Every Day I'm Theoretically Human
             </span>
-            <div className="flex sm:hidden items-end border-none outline-none focus:outline-none p-0 justify-center">
+            <div className="flex items-end justify-center p-0 border-none outline-none sm:hidden focus:outline-none">
               <img
                 src="/logo-light.png"
                 alt="logo"

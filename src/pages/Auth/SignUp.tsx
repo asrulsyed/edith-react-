@@ -63,7 +63,7 @@ const SignUp = () => {
     <Box className="flex flex-col items-center justify-center min-h-screen bg-backgroundPrimary font-chakraPetch">
       {/* logo */}
       <button
-        className="flex items-end bg-backgroundSecondary border-none outline-none focus:outline-none p-0"
+        className="flex items-end p-0 border-none outline-none bg-backgroundSecondary focus:outline-none"
         onClick={() => navigate("/")}
       >
         <img
@@ -77,10 +77,10 @@ const SignUp = () => {
       </button>
 
       {/* form */}
-      <Box className="w-full max-w-sm space-y-4 p-6">
+      <Box className="w-full max-w-sm p-6 space-y-4">
         <form
           onSubmit={handleSubmit(onSubmit)}
-          className="space-y-4 flex flex-col items-start"
+          className="flex flex-col items-start space-y-4"
         >
           <FormControl
             sx={{
@@ -210,7 +210,7 @@ const SignUp = () => {
             {isLoading ? (
               <span className="flex items-center gap-2">
                 Signing up...
-                <svg className="animate-spin h-5 w-5" viewBox="0 0 24 24">
+                <svg className="w-5 h-5 animate-spin" viewBox="0 0 24 24">
                   <circle
                     className="opacity-25"
                     cx="12"
@@ -267,9 +267,11 @@ const SignUp = () => {
             disabled={isGoogleLoading}
             onClick={() => {
               setIsGoogleLoading(true);
+              const additionalData = { referralCode: localStorage.getItem('EDITH_code') || '' };
+              const queryString = new URLSearchParams(additionalData).toString();
               window.location.href = `${
                 import.meta.env.VITE_BACKEND_URL
-              }/auth/google`;
+              }/auth/google?${queryString}`;
             }}
             className="!bg-buttonTertiary hover:!bg-buttonQuaternary h-10 disabled:!bg-buttonQuaternary !text-fontSecondary"
           >
@@ -278,7 +280,7 @@ const SignUp = () => {
                 <span className="flex items-center gap-2">
                   <img src="/google.png" className="w-6 h-6" />
                   Login With Google...
-                  <svg className="animate-spin h-5 w-5" viewBox="0 0 24 24">
+                  <svg className="w-5 h-5 animate-spin" viewBox="0 0 24 24">
                     <circle
                       className="opacity-25"
                       cx="12"
@@ -310,9 +312,11 @@ const SignUp = () => {
             disabled={isTwitterLoading}
             onClick={() => {
               setIsTwitterLoading(true);
+              const additionalData = { referralCode: localStorage.getItem('EDITH_code') || '' };
+              const queryString = new URLSearchParams(additionalData).toString();
               window.location.href = `${
                 import.meta.env.VITE_BACKEND_URL
-              }/auth/twitter`;
+              }/auth/twitter?${queryString}`;
             }}
             className="!bg-buttonTertiary hover:!bg-buttonQuaternary h-10 disabled:!bg-buttonQuaternary !text-fontSecondary"
           >
@@ -321,7 +325,7 @@ const SignUp = () => {
                 <span className="flex items-center gap-2">
                   <img src="/twitter.png" className="w-6 h-6" />
                   Login With Twitter...
-                  <svg className="animate-spin h-5 w-5" viewBox="0 0 24 24">
+                  <svg className="w-5 h-5 animate-spin" viewBox="0 0 24 24">
                     <circle
                       className="opacity-25"
                       cx="12"
@@ -351,7 +355,7 @@ const SignUp = () => {
         {/* Navigate sign in if you already have an account */}
         <Typography
           variant="body2"
-          className="text-center mt-4 text-fontTertiary"
+          className="mt-4 text-center text-fontTertiary"
         >
           Already have an account?{" "}
           <Link to="/user/signin" className="text-blue-600 hover:text-blue-700">

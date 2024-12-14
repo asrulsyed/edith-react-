@@ -34,7 +34,7 @@ export const ChatProvider = ({ children }: { children: React.ReactNode }) => {
           },
         ],
         temperature: 0.7,
-        max_tokens: 150,
+        max_tokens: 2000,
       });
 
       const assistantResponse = response.choices[0].message.content;
@@ -48,6 +48,7 @@ export const ChatProvider = ({ children }: { children: React.ReactNode }) => {
           };
           return updatedLog;
         });
+        setInputPrompt("");
       } else {
         console.error("Error generating response");
         toast({
