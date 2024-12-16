@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import { FiEdit3 } from "react-icons/fi";
 const UserPrompt = ({ prompt }: { prompt: string }) => {
   

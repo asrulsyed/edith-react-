@@ -1,7 +1,6 @@
 import ChatArea from "@/components/Chat/ChatArea";
 import InputBox from "@/components/InputBox";
 import { useChat } from "@/context/ChatContext";
-import { useEffect } from "react";
 
 const Text = () => {
   const { isStartChat } = useChat();
