@@ -27,4 +27,5 @@ export interface ChatContextType {
 export interface Chat {
   prompt: string;
   response: string | null;
+  created: Date;
 }

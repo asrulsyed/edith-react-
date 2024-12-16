@@ -1,8 +1,8 @@
 import { FiCopy } from "react-icons/fi"
-import { IoRefresh } from "react-icons/io5"
 import React from "react";
 import { CodeBlock } from 'react-code-block';
 import Markdown from 'markdown-to-jsx'
+import moment from 'moment';
 
 interface MessagePart {
   type: "text" | "code";
@@ -11,7 +11,7 @@ interface MessagePart {
   startIndex: number;
 }
 
-const Response = ({ response }: { response: string }) => {
+const Response = ({ response, created }: { response: string, created: Date }) => {
 
   const splitResponse = (content: string): MessagePart[] => {
     let isInCodeBlock: boolean = false;
@@ -80,7 +80,7 @@ const Response = ({ response }: { response: string }) => {
                     <FiCopy size={20} />
                   </button>
                   <CodeBlock code={part.content} language={part.language || 'Text'}>
-                    <CodeBlock.Code className="flex flex-col p-6 my-6 overflow-x-hidden transition-all duration-200 ease-in bg-gray-900 shadow-lg hover:overflow-x-auto scroll-smooth rounded-xl">
+                    <CodeBlock.Code className="flex flex-col p-10 my-6 overflow-x-hidden transition-all duration-200 ease-in bg-gray-900 shadow-lg hover:overflow-x-auto scroll-smooth rounded-xl">
                       <CodeBlock.LineContent>
                         <CodeBlock.Token />
                       </CodeBlock.LineContent>
@@ -96,9 +96,7 @@ const Response = ({ response }: { response: string }) => {
       <div className="border-t border-borderPrimary">
       </div>
       <div className="flex items-center justify-between px-4">
-        <button className="p-0 transition-colors duration-100 ease-linear bg-transparent border-none text-fontPrimary">
-          <IoRefresh size={20} />
-        </button>
+        <span>{moment(created).format('YYYY-MM-DD HH:mm:ss')}</span>
         <button className="p-0 transition-colors duration-100 ease-linear bg-transparent border-none text-fontPrimary">
           <FiCopy size={20} />
         </button>

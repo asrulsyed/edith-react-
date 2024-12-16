@@ -15,7 +15,7 @@ export const ChatProvider = ({ children }: { children: React.ReactNode }) => {
     setIsStartChat(true);
     setIsStreaming(true);
 
-    const newChatLogEntry = { prompt: inputPrompt, response: null };
+    const newChatLogEntry = { prompt: inputPrompt, response: null, created: new Date() };
     setChatLog((prevChatLog: Chat[]) => [...prevChatLog, newChatLogEntry]);
 
     const openai = new OpenAI({
@@ -36,15 +36,16 @@ export const ChatProvider = ({ children }: { children: React.ReactNode }) => {
         temperature: 0.7,
         max_tokens: 2000,
       });
-
       const assistantResponse = response.choices[0].message.content;
-
+      const created = response.created;
+      
       if (assistantResponse) {
         setChatLog((prevChatLog) => {
           const updatedLog = [...prevChatLog];
           updatedLog[updatedLog.length - 1] = {
             ...updatedLog[updatedLog.length - 1],
             response: assistantResponse,
+            created: new Date(created * 1000),
           };
           return updatedLog;
         });

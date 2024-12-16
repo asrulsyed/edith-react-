@@ -43,7 +43,6 @@ const Header = () => {
         setIsRightSidebar(false);
       }
     };
-    console.log("logined", logined)
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, [isLeftSidebar, isRightSidebar]);
@@ -132,7 +131,6 @@ const Header = () => {
           onClick={() => {
             setIsRightSidebar(!isRightSidebar);
             setIsLeftSidebar(false);
-            console.log("dddde");
           }}
         >
           {isRightSidebar ? (

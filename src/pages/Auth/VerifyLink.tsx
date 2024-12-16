@@ -17,7 +17,6 @@ const VerifyLink = () => {
       );
 
       if (res.status === 200) {
-        console.log(res);
         setVerifyCode(res.data.code);
         localStorage.setItem("EDITH_code", res.data.code);
         navigate("/chat/text");

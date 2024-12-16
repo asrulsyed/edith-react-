@@ -6,13 +6,9 @@ import { useEffect } from "react";
 const Text = () => {
   const { isStartChat } = useChat();
   
-  useEffect(() => {
-    console.log("text")
-  }, [])
-
   return (
     <main className={`${isStartChat ? 'flex justify-center' : ' flex justify-center items-center h-full'} font-chakraPetch`}>
-      <div className="flex flex-col items-center gap-10 sm:gap-20 px-4 w-full max-w-[730px] mt-[100px] mb-[120px]">
+      <div className="flex flex-col items-center gap-10 sm:gap-20 px-4 w-full max-w-[730px] mt-[120px] mb-[120px]">
         {!isStartChat ? (
           <div className="text-3xl font-bold text-fontPrimary whitespace-nowrap">
             <span className="hidden sm:block">
