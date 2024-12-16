@@ -1,15 +1,20 @@
 import ChatArea from "@/components/Chat/ChatArea";
 import InputBox from "@/components/InputBox";
 import { useChat } from "@/context/ChatContext";
+import { useEffect } from "react";
 
 const Text = () => {
   const { isStartChat } = useChat();
+  
+  useEffect(() => {
+    console.log("text")
+  }, [])
 
   return (
     <main className={`${isStartChat ? 'flex justify-center' : ' flex justify-center items-center h-full'} font-chakraPetch`}>
       <div className="flex flex-col items-center gap-10 sm:gap-20 px-4 w-full max-w-[730px] mt-[100px] mb-[120px]">
         {!isStartChat ? (
-          <p className="text-3xl font-bold text-fontPrimary whitespace-nowrap">
+          <div className="text-3xl font-bold text-fontPrimary whitespace-nowrap">
             <span className="hidden sm:block">
               Every Day I'm Theoretically Human
             </span>
@@ -23,7 +28,7 @@ const Text = () => {
                 .D.I.T.H
               </span>
             </div>
-          </p>
+          </div>
         ) : (
           <ChatArea />
         )}

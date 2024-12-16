@@ -53,6 +53,7 @@ const InputBox = () => {
   };
 
   useEffect(() => {
+    console.log("inputBox");
     setTextareaWidth(textareaRef.current?.clientWidth || 0);
   }, []);
 

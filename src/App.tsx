@@ -17,6 +17,8 @@ import "./App.css";
 import Code from "./pages/Code";
 import Coming from "./pages/Coming";
 import ConfirmToken from "./pages/Auth/ConfirmToken";
+import History from "./pages/Chat/Text/History";
+import Setting from "./pages/Chat/Text/Setting";
 
 const App = () => {
   return (
@@ -34,7 +36,11 @@ const App = () => {
                     path=""
                     element={<Navigate to="/chat/text" replace />}
                   />
-                  <Route path="text" element={<Text />} />
+                  <Route path="text">
+                    <Route path="" element={<Text />} />
+                    <Route path="history" element={<History />} />
+                    <Route path="setting" element={<Setting />} />
+                  </Route>
                   <Route path="image" element={<Navigate to='/coming' replace />} />
                   <Route path="audio" element={<Navigate to='/coming' replace />} />
                   <Route path="video" element={<Navigate to='/coming' replace />} />

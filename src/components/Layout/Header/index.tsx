@@ -4,6 +4,7 @@ import MobileDropDownMenu from "./MobileDropDownMenu";
 // import { RiMenuFoldLine, RiMenuUnfoldLine } from "react-icons/ri";
 import { useEffect, useRef, useState } from "react";
 import { useAuth } from "@/context/AuthContext";
+import SubMenu from "../SubMenu";
 
 const Header = () => {
   const {logined, setLogined, setToken} = useAuth();
@@ -49,11 +50,11 @@ const Header = () => {
 
   return (
     <>
-      <header className="border-b-2 border-borderPrimary bg-backgroundSecondary fixed top-0 left-0 right-0 z-50 font-chakraPetch">
+      <header className="fixed top-0 left-0 right-0 z-50 border-b-2 border-borderPrimary bg-backgroundSecondary font-chakraPetch">
         <div className="flex h-[72px] items-center px-4 sm:px-10 justify-between relative">
           <div className="flex items-center gap-10">
             <button
-              className="flex items-end bg-backgroundSecondary border-none outline-none focus:outline-none p-0"
+              className="flex items-end p-0 border-none outline-none bg-backgroundSecondary focus:outline-none"
               onClick={() => navigate("/")}
             >
               <img src="/logo-light.png" alt="logo" className="w-[20px] h-[23px] mr-0.5" />
@@ -65,15 +66,15 @@ const Header = () => {
               <DropDownMenu />
             </div>
           </div>
-          <div className="hidden lg:flex items-center gap-10">
+          <div className="items-center hidden gap-10 lg:flex">
             <div className="flex items-center gap-4">
-              <button className="h-8 flex items-center justify-center text-base bg-buttonPrimary hover:bg-buttonSecondary text-fontPrimary hover:text-fontSecondary border-borderPrimary hover:border-borderSecondary transition-all duration-300">
+              <button className="flex items-center justify-center h-8 text-base transition-all duration-300 bg-buttonPrimary hover:bg-buttonSecondary text-fontPrimary hover:text-fontSecondary border-borderPrimary hover:border-borderSecondary">
                 Quests
               </button>
-              <button className="h-8 flex items-center justify-center text-base bg-buttonPrimary hover:bg-buttonSecondary text-fontPrimary hover:text-fontSecondary border-borderPrimary hover:border-borderSecondary transition-all duration-300">
+              <button className="flex items-center justify-center h-8 text-base transition-all duration-300 bg-buttonPrimary hover:bg-buttonSecondary text-fontPrimary hover:text-fontSecondary border-borderPrimary hover:border-borderSecondary">
                 AI Agents
               </button>
-              <button className="h-8 flex items-center justify-center text-base bg-buttonPrimary hover:bg-buttonSecondary text-fontPrimary hover:text-fontSecondary border-borderPrimary hover:border-borderSecondary transition-all duration-300">
+              <button className="flex items-center justify-center h-8 text-base transition-all duration-300 bg-buttonPrimary hover:bg-buttonSecondary text-fontPrimary hover:text-fontSecondary border-borderPrimary hover:border-borderSecondary">
                 Docs
               </button>
             </div>
@@ -91,7 +92,7 @@ const Header = () => {
           </div>
         </div>
       </header>
-
+      <SubMenu />
       {/* Left Sidebar */}
       {/* <div ref={leftSidebarRef} className="fixed top-[74px] left-0 flex">
         <div
@@ -113,9 +114,9 @@ const Header = () => {
           }}
         >
           {isLeftSidebar ? (
-            <RiMenuFoldLine className="text-fontPrimary w-5 h-5" />
+            <RiMenuFoldLine className="w-5 h-5 text-fontPrimary" />
           ) : (
-            <RiMenuUnfoldLine className="text-fontPrimary w-5 h-5" />
+            <RiMenuUnfoldLine className="w-5 h-5 text-fontPrimary" />
           )}
         </button>
       </div> */}
@@ -135,9 +136,9 @@ const Header = () => {
           }}
         >
           {isRightSidebar ? (
-            <RiMenuUnfoldLine className="text-fontPrimary w-5 h-5" />
+            <RiMenuUnfoldLine className="w-5 h-5 text-fontPrimary" />
           ) : (
-            <RiMenuFoldLine className="text-fontPrimary w-5 h-5" />
+            <RiMenuFoldLine className="w-5 h-5 text-fontPrimary" />
           )}
         </button>
         <div

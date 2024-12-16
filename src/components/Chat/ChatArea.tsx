@@ -23,9 +23,12 @@ const ChatArea = () => {
     else localStorage.setItem('EDITH_Chatlog', JSON.stringify(chatLog));
 
   }, [chatLog]);
+  useEffect(() => {
+    console.log("chatarea")
+  }, [])
 
   return (
-    <div className="flex flex-col w-full gap-4">
+    <div className="flex flex-col w-full gap-6">
       {chatLog.map((chat: Chat, id: number) => (
         <div key={id} className="flex flex-col w-full gap-6">
           <UserPrompt prompt={chat.prompt} />
