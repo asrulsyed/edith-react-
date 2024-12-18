@@ -58,8 +58,8 @@ const DropDownMenu = () => {
 
   return (
     <DropdownMenu onOpenChange={setIsOpen}>
-      <DropdownMenuTrigger className="flex justify-between items-center bg-buttonPrimary px-3 border border-borderPrimary hover:border-borderSecondary rounded-lg w-[160px] h-10 text-fontPrimary text-xl focus:outline-none">
-        <span className="flex-1 text-center leading-none">{menuTitle}</span>
+      <DropdownMenuTrigger className="flex justify-between items-center bg-inputBg px-3 border-secondaryBorder hover:border-tertiaryBorder rounded-lg w-[160px] h-10 text-mainFont text-xl focus:outline-none font-Sofia">
+        <span className="flex-1 leading-none text-center">{menuTitle}</span>
         <FaChevronDown
           className={`${
             isOpen ? "rotate-180" : ""
@@ -67,7 +67,7 @@ const DropDownMenu = () => {
         />
       </DropdownMenuTrigger>
       <DropdownMenuContent
-        className="bg-buttonPrimary mt-[14px] border-borderPrimary w-[160px]"
+        className="bg-inputBg mt-[14px] w-[160px] border-secondaryBorder"
         align="start"
       >
         {menuItems.map((item) => (
@@ -78,7 +78,7 @@ const DropDownMenu = () => {
                 handleItemClick(item.id);
                 navigate(`/chat/${item.id}`);
               }}
-              className="text-fontPrimary hover:bg-buttonSecondary flex items-center justify-between px-3 py-2 [&>span]:hidden text-md text-center font-chakraPetch"
+              className="text-mainFont hover:text-hoverFont flex items-center justify-between px-3 py-2 [&>span]:hidden text-md text-center font-Sofia"
             >
               <p className="flex-1">{item.label}</p>
               <FaCheck

@@ -18,9 +18,6 @@ const ChatArea = () => {
       })
     }
 
-    if (typeof chatLog === 'string')
-      localStorage.setItem('EDITH_Chatlog', chatLog);
-    else localStorage.setItem('EDITH_Chatlog', JSON.stringify(chatLog));
   }, [chatLog]);
 
   return (
@@ -28,7 +25,7 @@ const ChatArea = () => {
       {chatLog.map((chat: Chat, id: number) => (
         <div key={id} className="flex flex-col w-full gap-6">
           <UserPrompt prompt={chat.prompt} />
-          {(chat.response !== null) && <Response response={chat.response} created={chat.created} />}
+          {(chat.response !== null) && <Response response={chat.response} />}
         </div>
       ))}
       <div ref={chatLogEndRef} />

@@ -36,18 +36,18 @@ const MobileDropDownMenu = () => {
 
   return (
     <DropdownMenu onOpenChange={setIsOpen}>
-      <DropdownMenuTrigger className="bg-buttonPrimary hover:bg-buttonSecondary p-2 border border-borderPrimary rounded-full w-10 h-10 text-fontPrimary hover:text-fontSecondary transition-all duration-300 focus:outline-none outline-none">
+      <DropdownMenuTrigger className="w-10 h-10 p-2 transition-all duration-300 border-transparent rounded-full outline-none bg-buttonBg hover:border-transparent hover:bg-buttonHoverBg text-mainFont focus:outline-none hover:text-hoverFont">
         {isOpen ? <IoClose size={24} /> : <IoMenu size={24} />}
       </DropdownMenuTrigger>
       <DropdownMenuContent
-        className="bg-backgroundPrimary mt-[14px] border-borderPrimary w-[200px]"
+        className="bg-inputBg mt-[14px] w-[200px] border-secondaryBorder font-Sofia"
         align="end"
       >
         <div className="block sm:hidden">
           {menuItems.map((item) => (
             <DropdownMenuItem
               key={item.id}
-              className="flex justify-between items-center hover:bg-buttonPrimary py-0 h-10 text-base text-fontPrimary hover:text-fontSecondary transition-all duration-300"
+              className="flex items-center justify-between h-10 py-0 text-base transition-all duration-300 hover:bg-buttonBg text-mainFont"
               onClick={() => {
                 handleItemClick(item.id);
                 navigate(`/chat/${item.id}`);
@@ -60,21 +60,21 @@ const MobileDropDownMenu = () => {
             </DropdownMenuItem>
           ))}
         </div>
-        <DropdownMenuSeparator className="block sm:hidden bg-borderPrimary" />
+        <DropdownMenuSeparator className="block sm:hidden " />
         <DropdownMenuSub>
-          <DropdownMenuItem className="hover:bg-buttonPrimary py-0 h-10 text-base text-fontPrimary hover:text-fontSecondary transition-all duration-300">
+          <DropdownMenuItem className="h-10 py-0 text-base transition-all duration-300 hover:bg-buttonBg text-mainFont hover:">
             Quests
           </DropdownMenuItem>
-          <DropdownMenuItem className="hover:bg-buttonPrimary py-0 h-10 text-base text-fontPrimary hover:text-fontSecondary transition-all duration-300">
+          <DropdownMenuItem className="h-10 py-0 text-base transition-all duration-300 hover:bg-buttonBg text-mainFont hover:">
             AI Agents
           </DropdownMenuItem>
-          <DropdownMenuItem className="hover:bg-buttonPrimary py-0 h-10 text-base text-fontPrimary hover:text-fontSecondary transition-all duration-300">
+          <DropdownMenuItem className="h-10 py-0 text-base transition-all duration-300 hover:bg-buttonBg text-mainFont hover:">
             Docs
           </DropdownMenuItem>
         </DropdownMenuSub>
-        <DropdownMenuSeparator className="bg-borderPrimary" />
+        <DropdownMenuSeparator className="bg-secondaryBorder" />
         <DropdownMenuItem
-          className="flex justify-between items-center hover:bg-buttonPrimary py-0 h-10 text-base text-fontPrimary hover:text-fontSecondary transition-all duration-300"
+          className="flex items-center justify-between h-10 py-0 text-base transition-all duration-300 hover:bg-buttonBg text-mainFont hover:"
           onClick={() => {
             navigate("/user/signin");
           }}

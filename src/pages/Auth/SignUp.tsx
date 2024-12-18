@@ -1,5 +1,5 @@
 import { useToast } from "@/hooks/use-toast";
-import { Email, Person2 } from "@mui/icons-material";
+import { MailOutline, PersonOutline } from "@mui/icons-material";
 import {
   Box,
   Button,
@@ -60,18 +60,18 @@ const SignUp = () => {
   };
 
   return (
-    <Box className="flex flex-col items-center justify-center min-h-screen bg-backgroundPrimary font-chakraPetch">
+    <Box className="flex flex-col items-center justify-center min-h-screen bg-mainBg font-Sofia text-buttonFont">
       {/* logo */}
       <button
-        className="flex items-end p-0 border-none outline-none bg-backgroundSecondary focus:outline-none"
+        className="flex items-end bg-transparent border-none outline-none focus:outline-none p-0 !mb-5"
         onClick={() => navigate("/")}
       >
         <img
           src="/logo-light.png"
           alt="logo"
-          className="w-[20px] h-[23px] mr-0.5"
+          className="w-[22px] h-[26px] mr-0.5"
         />
-        <span className="text-fontPrimary text-[32px] font-bold leading-[22px]">
+        <span className="text-[40px] font-bold leading-[24px]">
           .D.I.T.H
         </span>
       </button>
@@ -85,16 +85,16 @@ const SignUp = () => {
           <FormControl
             sx={{
               width: "100%",
-              backgroundColor: "var(--background-secondary)",
+              backgroundColor: "var(--bg-input)",
             }}
             variant="outlined"
           >
             <InputLabel
               htmlFor="outlined-adornment-password"
               sx={{
-                color: "var(--font-tertiary)",
+                color: "var(--font-button)",
                 "&.Mui-focused": {
-                  color: "var(--font-primary)",
+                  color: "var(--font-button)",
                 },
               }}
             >
@@ -106,7 +106,7 @@ const SignUp = () => {
               error={!!errors.name}
               endAdornment={
                 <InputAdornment position="end">
-                  <Person2 sx={{ color: "var(--font-tertiary)" }} />
+                  <PersonOutline sx={{ color: "var(--font-button)" }} />
                 </InputAdornment>
               }
               label="Name"
@@ -134,7 +134,7 @@ const SignUp = () => {
               <Typography
                 variant="caption"
                 color="error"
-                sx={{ mt: 1, color: "red" }}
+                sx={{ pt: 1, color: "red", bgcolor: "var(--bg-main)" }}
               >
                 {errors.name.message}
               </Typography>
@@ -144,16 +144,16 @@ const SignUp = () => {
           <FormControl
             sx={{
               width: "100%",
-              backgroundColor: "var(--background-secondary)",
+              backgroundColor: "var(--bg-input)",
             }}
             variant="outlined"
           >
             <InputLabel
               htmlFor="outlined-adornment-password"
               sx={{
-                color: "var(--font-tertiary)",
+                color: "var(--font-button)",
                 "&.Mui-focused": {
-                  color: "var(--font-primary)",
+                  color: "var(--font-button)",
                 },
               }}
             >
@@ -165,7 +165,7 @@ const SignUp = () => {
               error={!!errors.email}
               endAdornment={
                 <InputAdornment position="end">
-                  <Email sx={{ color: "var(--font-tertiary)" }} />
+                  <MailOutline sx={{ color: "var(--font-button)" }} />
                 </InputAdornment>
               }
               label="Email"
@@ -193,7 +193,7 @@ const SignUp = () => {
               <Typography
                 variant="caption"
                 color="error"
-                sx={{ mt: 1, color: "red" }}
+                sx={{ pt: 1, color: "red", bgcolor: "var(--bg-main)" }}
               >
                 {errors.email.message}
               </Typography>
@@ -205,7 +205,7 @@ const SignUp = () => {
             variant="contained"
             fullWidth
             disabled={isLoading}
-            className="!bg-buttonTertiary hover:!bg-buttonQuaternary h-10 disabled:!bg-buttonQuaternary !text-fontSecondary"
+            className="!bg-buttonFont hover:!bg-buttonHoverBg h-10 disabled:!bg-buttonHoverBg !text-hoverFont !text-sm"
           >
             {isLoading ? (
               <span className="flex items-center gap-2">
@@ -238,7 +238,7 @@ const SignUp = () => {
               flex: 1,
               color: "var(--font-primary)",
               "&.MuiDivider-root": {
-                borderColor: "var(--border-primary)",
+                borderColor: "var(--border-secondary)",
               },
             }}
           />
@@ -252,7 +252,7 @@ const SignUp = () => {
               flex: 1,
               color: "var(--font-primary)",
               "&.MuiDivider-root": {
-                borderColor: "var(--border-primary)",
+                borderColor: "var(--border-secondary)",
               },
             }}
           />
@@ -273,7 +273,7 @@ const SignUp = () => {
                 import.meta.env.VITE_BACKEND_URL
               }/auth/google?${queryString}`;
             }}
-            className="!bg-buttonTertiary hover:!bg-buttonQuaternary h-10 disabled:!bg-buttonQuaternary !text-fontSecondary"
+            className="!bg-buttonFont hover:!bg-buttonHoverBg h-10 disabled:!bg-buttonHoverBg !text-hoverFont !text-sm"
           >
             {isGoogleLoading ? (
               <>
@@ -318,7 +318,7 @@ const SignUp = () => {
                 import.meta.env.VITE_BACKEND_URL
               }/auth/twitter?${queryString}`;
             }}
-            className="!bg-buttonTertiary hover:!bg-buttonQuaternary h-10 disabled:!bg-buttonQuaternary !text-fontSecondary"
+            className="!bg-buttonFont hover:!bg-buttonHoverBg h-10 disabled:!bg-buttonHoverBg !text-hoverFont !text-sm"
           >
             {isTwitterLoading ? (
               <>
@@ -355,7 +355,7 @@ const SignUp = () => {
         {/* Navigate sign in if you already have an account */}
         <Typography
           variant="body2"
-          className="mt-4 text-center text-fontTertiary"
+          className="mt-4 text-center "
         >
           Already have an account?{" "}
           <Link to="/user/signin" className="text-blue-600 hover:text-blue-700">

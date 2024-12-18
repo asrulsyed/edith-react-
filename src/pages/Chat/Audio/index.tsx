@@ -4,7 +4,7 @@ const Audio = () => {
   const navigate = useNavigate();
 
   return (
-    <div className="w-screen h-screen bg-white flex items-center justify-center text-black font-chakraPetch">
+    <div className="w-screen h-screen bg-white flex items-center justify-center text-black font-Sofia">
       <div className="max-w-screen-lg -translate-y-1/4 px-10 ">
       <button
           className="flex items-end border-none outline-none focus:outline-none p-0 mb-8 mx-auto"

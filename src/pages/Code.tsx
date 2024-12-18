@@ -60,37 +60,37 @@ const Code = () => {
   }, [navigate])
 
   return (
-    <Box className="flex flex-col items-center justify-center min-h-screen bg-backgroundPrimary font-chakraPetch">
-      <div className="flex items-center bg-backgroundSecondary border-none outline-none focus:outline-none p-0 !mb-5">
+    <Box className="flex flex-col items-center justify-center min-h-screen bg-mainBg font-Sofia text-buttonFont">
+      <div className="flex items-end border-none outline-none focus:outline-none p-0 !mb-5">
         <img
           src="/logo-light.png"
           alt="logo"
-          className="w-[20px] h-[23px] mr-0.5"
+          className="w-[22px] h-[26px] mr-0.5"
         />
-        <span className="text-fontPrimary text-[32px] font-bold leading-[22px]">
+        <span className="text-mainFont text-[40px] font-bold leading-[24px]">
           .D.I.T.H
         </span>
       </div>
 
       {/* form */}
-      <Box className="w-full max-w-sm space-y-4 p-6">
+      <Box className="w-full max-w-sm p-6 space-y-4">
         <form
           onSubmit={handleSubmit(onSubmit)}
-          className="space-y-10 flex flex-col items-start"
+          className="flex flex-col items-start space-y-10"
         >
           <FormControl
             sx={{
               width: "100%",
-              backgroundColor: "var(--background-secondary)",
+              backgroundColor: "var(--bg-input)",
             }}
             variant="outlined"
           >
             <InputLabel
               htmlFor="outlined-adornment-code"
               sx={{
-                color: "var(--font-tertiary)",
+                color: "var(--font-button)",
                 "&.Mui-focused": {
-                  color: "var(--font-primary)",
+                  color: "var(--font-button)",
                 },
               }}
             >
@@ -133,12 +133,12 @@ const Code = () => {
             variant="contained"
             fullWidth
             disabled={isLoading}
-            className="!bg-buttonTertiary hover:!bg-buttonQuaternary h-10 disabled:!bg-buttonQuaternary !text-fontSecondary"
+            className="!bg-buttonFont hover:!bg-buttonHoverBg h-10 disabled:!bg-buttonHoverBg !text-hoverFont"
           >
             {isLoading ? (
               <span className="flex items-center gap-2">
                 Check Code...
-                <svg className="animate-spin h-5 w-5" viewBox="0 0 24 24">
+                <svg className="w-5 h-5 animate-spin" viewBox="0 0 24 24">
                   <circle
                     className="opacity-25"
                     cx="12"

@@ -1,6 +1,6 @@
 import { useAuth } from "@/context/AuthContext";
 import { useToast } from "@/hooks/use-toast";
-import { Email } from "@mui/icons-material";
+import { MailOutline } from "@mui/icons-material";
 import {
   Box,
   Button,
@@ -89,22 +89,21 @@ const SignIn = () => {
   }, []);
 
   return (
-    <Box className="flex flex-col items-center justify-center min-h-screen bg-backgroundPrimary font-chakraPetch">
+    <Box className="flex flex-col items-center justify-center min-h-screen bg-mainBg font-Sofia text-buttonFont">
       {/* logo */}
       <button
-        className="flex items-end p-0 border-none outline-none bg-backgroundSecondary focus:outline-none"
+        className="flex items-end bg-transparent border-none outline-none focus:outline-none p-0 !mb-5"
         onClick={() => navigate("/")}
       >
         <img
           src="/logo-light.png"
           alt="logo"
-          className="w-[20px] h-[23px] mr-0.5"
+          className="w-[22px] h-[26px] mr-0.5"
         />
-        <span className="text-fontPrimary text-[32px] font-bold leading-[22px]">
+        <span className="text-[40px] font-bold leading-[24px]">
           .D.I.T.H
         </span>
       </button>
-
       {/* form */}
       <Box className="w-full max-w-sm p-6 space-y-4">
         <form
@@ -114,16 +113,16 @@ const SignIn = () => {
           <FormControl
             sx={{
               width: "100%",
-              backgroundColor: "var(--background-secondary)",
+              backgroundColor: "var(--bg-input)",
             }}
             variant="outlined"
           >
             <InputLabel
               htmlFor="outlined-adornment-password"
               sx={{
-                color: "var(--font-tertiary)",
+                color: "var(--font-button)",
                 "&.Mui-focused": {
-                  color: "var(--font-primary)",
+                  color: "var(--font-button)",
                 },
               }}
             >
@@ -135,7 +134,7 @@ const SignIn = () => {
               error={!!errors.email}
               endAdornment={
                 <InputAdornment position="end">
-                  <Email sx={{ color: "var(--font-tertiary)" }} />
+                  <MailOutline sx={{ color: "var(--font-button)" }} />
                 </InputAdornment>
               }
               label="Email"
@@ -163,7 +162,7 @@ const SignIn = () => {
               <Typography
                 variant="caption"
                 color="error"
-                sx={{ mt: 1, color: "red" }}
+                sx={{ pt: 1, color: "red", bgcolor: "var(--bg-main)"}}
               >
                 {errors.email.message}
               </Typography>
@@ -175,7 +174,7 @@ const SignIn = () => {
             variant="contained"
             fullWidth
             disabled={isLoading}
-            className="!bg-buttonTertiary hover:!bg-buttonQuaternary h-10 disabled:!bg-buttonQuaternary !text-fontSecondary"
+            className="!bg-buttonFont hover:!bg-buttonHoverBg h-10 disabled:!bg-buttonHoverBg !text-hoverFont !text-sm"
           >
             {isLoading ? (
               <span className="flex items-center gap-2">
@@ -209,7 +208,7 @@ const SignIn = () => {
               flex: 1,
               color: "var(--font-primary)",
               "&.MuiDivider-root": {
-                borderColor: "var(--border-primary)",
+                borderColor: "var(--border-secondary)",
               },
             }}
           />
@@ -223,7 +222,7 @@ const SignIn = () => {
               flex: 1,
               color: "var(--font-primary)",
               "&.MuiDivider-root": {
-                borderColor: "var(--border-primary)",
+                borderColor: "var(--border-secondary)",
               },
             }}
           />
@@ -240,11 +239,10 @@ const SignIn = () => {
               setIsGoogleLoading(true);
               const additionalData = { referralCode: localStorage.getItem('EDITH_code') || '' };
               const queryString = new URLSearchParams(additionalData).toString();
-              window.location.href = `${
-                import.meta.env.VITE_BACKEND_URL
-              }/auth/google?${queryString}`;
+              window.location.href = `${import.meta.env.VITE_BACKEND_URL
+                }/auth/google?${queryString}`;
             }}
-            className="!bg-buttonTertiary hover:!bg-buttonQuaternary h-10 disabled:!bg-buttonQuaternary !text-fontSecondary"
+            className="!bg-buttonFont hover:!bg-buttonHoverBg h-10 disabled:!bg-buttonHoverBg !text-hoverFont !text-sm"
           >
             {isGoogleLoading ? (
               <>
@@ -285,11 +283,10 @@ const SignIn = () => {
               setIsTwitterLoading(true);
               const additionalData = { referralCode: localStorage.getItem('EDITH_code') || '' };
               const queryString = new URLSearchParams(additionalData).toString();
-              window.location.href = `${
-                import.meta.env.VITE_BACKEND_URL
-              }/auth/twitter?${queryString}`;
+              window.location.href = `${import.meta.env.VITE_BACKEND_URL
+                }/auth/twitter?${queryString}`;
             }}
-            className="!bg-buttonTertiary hover:!bg-buttonQuaternary h-10 disabled:!bg-buttonQuaternary !text-fontSecondary"
+            className="!bg-buttonFont hover:!bg-buttonHoverBg h-10 disabled:!bg-buttonHoverBg !text-hoverFont !text-sm"
           >
             {isTwitterLoading ? (
               <>

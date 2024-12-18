@@ -9,7 +9,8 @@ export default {
   	extend: {
   		fontFamily: {
   			pavelt: ['Pavelt', 'san-serif'],
-				'chakraPetch': ['"Chakra Petch"', 'sans-serif'],
+				'Aeonik': ['"Aeonik"'],
+				'Sofia': ['"Sofia Sans"'],
   		},
   		borderRadius: {
   			lg: 'var(--radius)',
@@ -57,17 +58,18 @@ export default {
   				'4': 'hsl(var(--chart-4))',
   				'5': 'hsl(var(--chart-5))'
   			},
-				backgroundPrimary: 'var(--background-primary)',
-				backgroundSecondary: 'var(--background-secondary)',
-				borderPrimary: 'var(--border-primary)',
-				borderSecondary: 'var(--border-secondary)',
-				buttonPrimary: 'var(--button-primary)',
-				buttonSecondary: 'var(--button-secondary)',
-				buttonTertiary: 'var(--button-tertiary)',
-				buttonQuaternary: 'var(--button-quaternary)',
-				fontPrimary: 'var(--font-primary)',
-				fontSecondary: 'var(--font-secondary)',
-				fontTertiary: 'var(--font-tertiary)',
+				mainBg: 'var(--bg-main)',
+				headerBg: 'var(--bg-header)',
+				buttonBg: 'var(--bg-button)',
+				inputBg: 'var(--bg-input)',
+				buttonHoverBg: 'var(--bg-button-hover)',
+				mainFont: 'var(--font-primary)',
+				buttonFont: 'var(--font-button)',
+				hoverFont: 'var(--font-button-hover)',
+				subButtonFont: 'var(--font-button-sub)',
+				primaryBorder: 'var(--border-primary)',
+				secondaryBorder: 'var(--border-secondary)',
+				tertiaryBorder: 'var(--border-tertiary)',
   		}
   	}
   },

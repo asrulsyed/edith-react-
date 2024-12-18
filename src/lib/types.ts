@@ -19,13 +19,26 @@ export interface ChatContextType {
   setIsStreaming: (isStreaming: boolean) => void;
   isStartChat: boolean;
   setIsStartChat: (isStartChat: boolean) => void;
+  isNewChat: boolean;
+  setIsNewChat: (isNewChat: boolean) => void;
+  messageOver: boolean;
+  setMessageOver: (messageOver: boolean) => void;
   chatLog: Chat[];
   setChatLog: (chatLog: Chat[]) => void;
+  history: Session[];
+  setHistory: (sessions: Session[]) => void;
   sendMessage: () => void;
+  updateHistory: () => void;
+  saveHistory: () => void;
 }
 
 export interface Chat {
   prompt: string;
   response: string | null;
-  created: Date;
+  created: number;
+}
+
+export interface Session {
+  id: number;
+  session: Chat[];
 }
