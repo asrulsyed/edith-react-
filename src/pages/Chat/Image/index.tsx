@@ -4,20 +4,17 @@ const Image = () => {
   const navigate = useNavigate();
 
   return (
-    <div className="w-screen h-screen bg-white flex items-center justify-center text-black font-Sofia">
-      <div className="max-w-screen-lg -translate-y-1/4 px-10 ">
+    <div className="flex items-center justify-center w-screen h-screen text-black bg-white font-Sofia">
+      <div className="max-w-screen-lg px-10 -translate-y-1/4 ">
       <button
-          className="flex items-end border-none outline-none focus:outline-none p-0 mb-8 mx-auto"
+          className="flex items-end p-0 mx-auto mb-8 border-none outline-none focus:outline-none"
           onClick={() => navigate("/")}
         >
           <img
             src="/logo-dark.png"
             alt="logo"
-            className="w-[38px] h-[45px] mr-0.5"
+            className="h-10"
           />
-          <span className="text-[64px] font-bold leading-[44px]">
-            .D.I.T.H
-          </span>
         </button>
         <p className="font-bold text-5xl sm:text-[64px] lg:text-[80px] text-center mb-8">COMING SOON!</p>
         <p className="text-xl sm:text-[28px] text-center leading-loose">
@@ -26,7 +23,7 @@ const Image = () => {
           automation to create the future of Artificial Intelligence.
         </p>
       </div>
-      <div className="fixed bottom-16 w-full flex items-center justify-center gap-8 sm:gap-16">
+      <div className="fixed flex items-center justify-center w-full gap-8 bottom-16 sm:gap-16">
         <a
           className="hover:cursor-pointer hover:scale-105"
           href="https://t.me/edithx_ai"

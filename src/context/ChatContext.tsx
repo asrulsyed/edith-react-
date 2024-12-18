@@ -106,7 +106,6 @@ export const ChatProvider = ({ children }: { children: React.ReactNode }) => {
         return updatedHistory;
       });
     }
-
   };
 
   useEffect(() => {

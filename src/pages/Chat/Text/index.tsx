@@ -7,7 +7,7 @@ const Text = () => {
   const { isStartChat } = useChat();
 
   useEffect(() => {
-    console.log("ids", isStartChat)
+    // console.log("ids", isStartChat)
   }, [isStartChat])
   
   return (
@@ -20,13 +20,10 @@ const Text = () => {
             </span>
             <div className="flex items-end justify-center p-0 border-none outline-none sm:hidden focus:outline-none">
               <img
-                src="/logo-light.png"
+                src="/logo.png"
                 alt="logo"
-                className="w-[30px] h-[35px] mr-0.5"
+                className="h-10"
               />
-              <span className="text-[48px] font-bold leading-[33px]">
-                .D.I.T.H
-              </span>
             </div>
           </div>
         ) : (

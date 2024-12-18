@@ -1,8 +1,9 @@
 export const MenuItems = [
   {
     id: "text",
-    label: "LLM Chat",
+    label: "E.CHAT",
     checked: true,
+    disable: false,
     // subItems: [
     //   {
     //     id: "llm-chat",
@@ -28,8 +29,9 @@ export const MenuItems = [
   },
   {
     id: "image",
-    label: "Text-Image",
+    label: "E.GoLand",
     checked: false,
+    disable: true,
     // subItems: [
     //   {
     //     id: "normal-img-gen",
@@ -40,8 +42,9 @@ export const MenuItems = [
   },
   {
     id: "video",
-    label: "Text-Video",
+    label: "E.G",
     checked: false,
+    disable: true,
     // subItems: [
     //   {
     //     id: "short-film-gen",
@@ -57,8 +60,9 @@ export const MenuItems = [
   },
   {
     id: "audio",
-    label: "Text-Audio",
+    label: "E.ROBO",
     checked: false,
+    disable: true,
     // subItems: [
     //   {
     //     id: "normal-conversation",

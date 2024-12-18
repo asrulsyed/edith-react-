@@ -60,13 +60,10 @@ const Response = ({ response }: { response: string }) => {
     <div className="flex flex-col gap-4 text-mainFont">
       <div className="flex items-end px-4 bg-transparent border-none outline-none focus:outline-none">
         <img
-          src="/logo-light.png"
+          src="/logo.png"
           alt="logo"
-          className="w-[14px] h-[17px] mr-0.5"
+          className="h-5"
         />
-        <span className="text-mainFont text-[24px] font-bold leading-[16px]">
-          .D.I.T.H
-        </span>
       </div>
       <div className="overflow-x-auto text-justify break-words whitespace-pre-wrap">
         {splitResponse(response).map((part, index) => (

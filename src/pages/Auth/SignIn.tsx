@@ -96,13 +96,10 @@ const SignIn = () => {
         onClick={() => navigate("/")}
       >
         <img
-          src="/logo-light.png"
+          src="/logo.png"
           alt="logo"
-          className="w-[22px] h-[26px] mr-0.5"
+          className="h-8"
         />
-        <span className="text-[40px] font-bold leading-[24px]">
-          .D.I.T.H
-        </span>
       </button>
       {/* form */}
       <Box className="w-full max-w-sm p-6 space-y-4">

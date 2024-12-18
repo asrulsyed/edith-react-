@@ -63,13 +63,10 @@ const Code = () => {
     <Box className="flex flex-col items-center justify-center min-h-screen bg-mainBg font-Sofia text-buttonFont">
       <div className="flex items-end border-none outline-none focus:outline-none p-0 !mb-5">
         <img
-          src="/logo-light.png"
+          src="/logo.png"
           alt="logo"
-          className="w-[22px] h-[26px] mr-0.5"
+          className="h-8"
         />
-        <span className="text-mainFont text-[40px] font-bold leading-[24px]">
-          .D.I.T.H
-        </span>
       </div>
 
       {/* form */}

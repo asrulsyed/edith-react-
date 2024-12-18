@@ -11,13 +11,10 @@ const Coming = () => {
           onClick={() => navigate("/")}
         >
           <img
-            src="/logo-dark.png"
+            src="/logo.png"
             alt="logo"
-            className="w-[38px] h-[42px] mr-0.5"
+            className="h-10"
           />
-          <span className="text-[64px] font-bold leading-[40px]">
-            .D.I.T.H
-          </span>
         </button>
         <p className="font-bold text-5xl sm:text-[64px] lg:text-[80px] text-center mb-8">
           COMING SOON!

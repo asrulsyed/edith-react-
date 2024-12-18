@@ -14,6 +14,7 @@ type MenuItem = {
   id: string;
   label: string;
   checked: boolean;
+  disable: boolean;
   // subItems: {
   //   id: string;
   //   label: string;
@@ -78,6 +79,7 @@ const DropDownMenu = () => {
                 handleItemClick(item.id);
                 navigate(`/chat/${item.id}`);
               }}
+              disabled={item.disable}
               className="text-mainFont hover:text-hoverFont flex items-center justify-between px-3 py-2 [&>span]:hidden text-md text-center font-Sofia"
             >
               <p className="flex-1">{item.label}</p>
