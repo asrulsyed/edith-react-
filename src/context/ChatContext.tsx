@@ -81,40 +81,44 @@ export const ChatProvider = ({ children }: { children: React.ReactNode }) => {
 
   const updateHistory = () => {
     setIsStartChat(false);
-    setChatLog([])
+    setChatLog([]);
   };
 
   const saveHistory = () => {
     if (chatLog.length) {
       const newSession = {
         id: chatLog[0].created,
-        session: chatLog
-      }
-      if (history.length) {
-        console.log("a")
-        setHistory((prev) => {
-          const existingSessionIndex = prev.findIndex(session => session.id === newSession.id);
+        session: chatLog,
+      };
+      setHistory((prevHistory) => {
+        const existingSessionIndex = prevHistory.findIndex(
+          (session) => session.id === newSession.id
+        );
+        const updatedHistory =
+          existingSessionIndex !== -1
+            ? prevHistory.map((session, index) =>
+                index === existingSessionIndex ? newSession : session
+              )
+            : [...prevHistory, newSession];
 
-          if (existingSessionIndex !== -1) {
-            const updatedHistory = [...prev];
-            updatedHistory[existingSessionIndex] = newSession;
-            return updatedHistory;
-          } else {
-            return [...prev, newSession]
-          }
-        })
-      } else {
-        setHistory((prev) => [...prev, newSession])
-      }
+        // Save to localStorage immediately after updating history
+        localStorage.setItem("EDITH_History", JSON.stringify(updatedHistory));
+        return updatedHistory;
+      });
     }
-    
-    localStorage.setItem('EDITH_History', JSON.stringify(history))
+
   };
 
   useEffect(() => {
-    const savedHistory = localStorage.getItem("EDITH_History")
-    if (savedHistory) setHistory(JSON.parse(savedHistory))
-  }, [])
+    if (chatLog.length && isStartChat) {
+      saveHistory();
+    }
+  }, [chatLog]);
+
+  useEffect(() => {
+    const savedHistory = localStorage.getItem("EDITH_History");
+    if (savedHistory) setHistory(JSON.parse(savedHistory));
+  }, []);
 
   return (
     <ChatContext.Provider
